@@ -1,0 +1,46 @@
+{
+  "name": "gulp-imagemin",
+  "version": "0.0.0",
+  "description": "Minify PNG, JPEG and GIF images",
+  "license": "MIT",
+  "repository": "sindresorhus/gulp-imagemin",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "image-min",
+    "image",
+    "img",
+    "picture",
+    "photo",
+    "minify",
+    "minifier",
+    "compress",
+    "png",
+    "jpg",
+    "jpeg",
+    "gif"
+  ],
+  "dependencies": {
+    "event-stream": "~3.0.20",
+    "gulp-util": "~2.2.0",
+    "image-min": "~0.1.0",
+    "graceful-fs": "~2.0.0",
+    "filesize": "~2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
+}
