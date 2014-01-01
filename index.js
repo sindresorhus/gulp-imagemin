@@ -1,14 +1,14 @@
 'use strict';
 var path = require('path');
 var fs = require('graceful-fs');
-var es = require('event-stream');
+var map = require('map-stream');
 var gutil = require('gulp-util');
 var imagemin = require('image-min');
 var filesize = require('filesize');
 var tempWrite = require('temp-write');
 
 module.exports = function (options) {
-	return es.map(function (file, cb) {
+	return map(function (file, cb) {
 		tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
 			if (err) {
 				return cb(new Error('gulp-imagemin: ' + err));
