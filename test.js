@@ -13,6 +13,7 @@ it('should minify images', function (cb) {
 	});
 
 	stream.write(new gutil.File({
-		path: __dirname + '/fixture.png'
+		path: __dirname + '/fixture.png',
+		contents: fs.readFileSync('fixture.png')
 	}));
 });

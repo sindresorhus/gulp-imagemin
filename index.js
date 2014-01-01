@@ -1,38 +1,42 @@
 'use strict';
 var path = require('path');
-var crypto = require('crypto');
 var fs = require('graceful-fs');
-var tmpDir = require('os').tmpdir();
 var es = require('event-stream');
 var gutil = require('gulp-util');
 var imagemin = require('image-min');
 var filesize = require('filesize');
-
-function randDir() {
-	var uid = [process.pid, Date.now(), Math.floor(Math.random() * 1000000)].join('-');
-	return crypto.createHash('md5').update(uid).digest('hex');
-}
+var tempWrite = require('temp-write');
 
 module.exports = function (options) {
 	return es.map(function (file, cb) {
-		var dest = path.join(tmpDir, randDir(), path.basename(file.path));
+		tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
+			if (err) {
+				return cb(new Error('gulp-imagemin: ' + err));
+			}
 
-		imagemin(file.path, dest, options, function (data) {
-			var size = data.sizeRaw;
-
-			fs.readFile(dest, function (err, data) {
+			// workaround: https://github.com/kevva/image-min/issues/8
+			fs.stat(tempFile, function (err, stats) {
 				if (err) {
 					return cb(new Error('gulp-imagemin: ' + err));
 				}
 
-				file.contents = data;
+				var origSize = stats.size;
 
-				var saved = data.length - size;
-				var savedMsg = saved > 0 ? 'saved ' + filesize(saved, {round: 1}) : 'already optimized';
+				imagemin(tempFile, tempFile, options, function (data) {
+					fs.readFile(tempFile, function (err, data) {
+						if (err) {
+							return cb(new Error('gulp-imagemin: ' + err));
+						}
 
-				gutil.log('gulp-imagemin:', gutil.colors.green('✔ ') + file.relative + gutil.colors.gray(' (' + savedMsg + ')'));
+						var saved = origSize - data.length;
+						var savedMsg = saved > 0 ? 'saved ' + filesize(saved, {round: 1}) : 'already optimized';
 
-				cb(null, file);
+						gutil.log('gulp-imagemin:', gutil.colors.green('✔ ') + file.relative + gutil.colors.gray(' (' + savedMsg + ')'));
+
+						file.contents = data;
+						cb(null, file);
+					});
+				});
 			});
 		});
 	});
