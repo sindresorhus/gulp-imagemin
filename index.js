@@ -2,7 +2,7 @@
 var path = require('path');
 var fs = require('graceful-fs');
 var gutil = require('gulp-util');
-var es = require('event-stream');
+var map = require('map-stream');
 var filesize = require('filesize');
 var tempWrite = require('temp-write');
 var imagemin = require('image-min');
@@ -54,5 +54,5 @@ module.exports = function (options) {
 		});
 	}
 
-	return es.map(shrinkimage);
+	return map(shrinkimage);
 };

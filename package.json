@@ -39,7 +39,7 @@
     "graceful-fs": "~2.0.0",
     "filesize": "~2.0.0",
     "temp-write": "~0.1.0",
-    "event-stream": "~3.0.20"
+    "map-stream": "0.0.4"
   },
   "devDependencies": {
     "mocha": "*"
