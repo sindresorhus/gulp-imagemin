@@ -35,11 +35,11 @@
   ],
   "dependencies": {
     "gulp-util": "~2.2.0",
-    "through": "~2.3.4",
     "image-min": "~0.1.0",
     "graceful-fs": "~2.0.0",
     "filesize": "~2.0.0",
-    "temp-write": "~0.1.0"
+    "temp-write": "~0.1.0",
+    "event-stream": "~3.0.20"
   },
   "devDependencies": {
     "mocha": "*"
