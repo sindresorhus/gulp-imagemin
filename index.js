@@ -14,7 +14,7 @@ module.exports = function (options) {
 		}
 
 		if (file.isStream()) {
-			return this.emit('error', new gutil.PluginError('gulp-vulcanize', 'Streaming not supported'));
+			return this.emit('error', new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
 		}
 
 		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path)) === -1) {
