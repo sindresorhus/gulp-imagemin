@@ -8,7 +8,7 @@ var tempWrite = require('temp-write');
 var imagemin = require('image-min');
 
 module.exports = function (options) {
-	function shrinkimage (file, cb) {
+	return map(function (file, cb) {
 		if (file.isNull()) {
 			return cb(null, file);
 		}
@@ -52,7 +52,5 @@ module.exports = function (options) {
 				});
 			});
 		});
-	}
-
-	return map(shrinkimage);
+	});
 };
