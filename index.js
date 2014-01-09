@@ -2,45 +2,43 @@
 var path = require('path');
 var fs = require('graceful-fs');
 var gutil = require('gulp-util');
-var through = require('through');
+var map = require('map-stream');
 var filesize = require('filesize');
 var tempWrite = require('temp-write');
 var imagemin = require('image-min');
 
 module.exports = function (options) {
-	return through(function (file) {
+	function shrinkimage (file, cb) {
 		if (file.isNull()) {
-			return this.queue(file);
+			return cb(null, file);
 		}
 
 		if (file.isStream()) {
-			return this.emit('error', new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
+			return cb(new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
 		}
 
 		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path)) === -1) {
 			gutil.log('gulp-imagemin: Skipping unsupported image ' + gutil.colors.blue(file.relative));
-			return this.queue(file);
+			return cb(null, file);
 		}
-
-		var self = this;
 
 		tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
 			if (err) {
-				return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
+				return cb(new gutil.PluginError('gulp-imagemin', err));
 			}
 
 			// workaround: https://github.com/kevva/image-min/issues/8
 			fs.stat(tempFile, function (err, stats) {
 				if (err) {
-					return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
+					return cb(new gutil.PluginError('gulp-imagemin', err));
 				}
 
 				var origSize = stats.size;
 
-				imagemin(tempFile, tempFile, options, function (data) {
+				imagemin(tempFile, tempFile, options, function () {
 					fs.readFile(tempFile, function (err, data) {
 						if (err) {
-							return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
+							return cb(new gutil.PluginError('gulp-imagemin', err));
 						}
 
 						var saved = origSize - data.length;
@@ -49,10 +47,12 @@ module.exports = function (options) {
 						gutil.log('gulp-imagemin:', gutil.colors.green('✔ ') + file.relative + gutil.colors.gray(' (' + savedMsg + ')'));
 
 						file.contents = data;
-						self.queue(file);
+						cb(null, file);
 					});
 				});
 			});
 		});
-	});
+	}
+
+	return map(shrinkimage);
 };
