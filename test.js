@@ -17,3 +17,16 @@ it('should minify images', function (cb) {
 		contents: fs.readFileSync('fixture.png')
 	}));
 });
+
+it('should skip unsupported images', function (cb) {
+	var stream = imagemin();
+
+	stream.on('data', function (file) {
+		assert.strictEqual(file.contents, null);
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		path: __dirname + '/fixture.bmp'
+	}));
+});

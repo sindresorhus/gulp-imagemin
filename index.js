@@ -1,23 +1,38 @@
 'use strict';
 var path = require('path');
 var fs = require('graceful-fs');
-var map = require('map-stream');
 var gutil = require('gulp-util');
-var imagemin = require('image-min');
+var through = require('through');
 var filesize = require('filesize');
 var tempWrite = require('temp-write');
+var imagemin = require('image-min');
 
 module.exports = function (options) {
-	return map(function (file, cb) {
+	return through(function (file) {
+		if (file.isNull()) {
+			return this.queue(file);
+		}
+
+		if (file.isStream()) {
+			return this.emit('error', new gutil.PluginError('gulp-vulcanize', 'Streaming not supported'));
+		}
+
+		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path)) === -1) {
+			gutil.log('gulp-imagemin: Skipping unsupported image ' + gutil.colors.blue(file.relative));
+			return this.queue(file);
+		}
+
+		var self = this;
+
 		tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
 			if (err) {
-				return cb(new Error('gulp-imagemin: ' + err));
+				return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
 			}
 
 			// workaround: https://github.com/kevva/image-min/issues/8
 			fs.stat(tempFile, function (err, stats) {
 				if (err) {
-					return cb(new Error('gulp-imagemin: ' + err));
+					return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
 				}
 
 				var origSize = stats.size;
@@ -25,7 +40,7 @@ module.exports = function (options) {
 				imagemin(tempFile, tempFile, options, function (data) {
 					fs.readFile(tempFile, function (err, data) {
 						if (err) {
-							return cb(new Error('gulp-imagemin: ' + err));
+							return self.emit('error', new gutil.PluginError('gulp-imagemin', err));
 						}
 
 						var saved = origSize - data.length;
@@ -34,7 +49,7 @@ module.exports = function (options) {
 						gutil.log('gulp-imagemin:', gutil.colors.green('✔ ') + file.relative + gutil.colors.gray(' (' + savedMsg + ')'));
 
 						file.contents = data;
-						cb(null, file);
+						self.queue(file);
 					});
 				});
 			});
