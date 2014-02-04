@@ -22,7 +22,7 @@ module.exports = function (options) {
 			return cb(null, file);
 		}
 
-		tempWrite(file.contents, path.extname(file.path), function (err, tempFile) {
+		tempWrite(file.contents, path.basename(file.path), function (err, tempFile) {
 			if (err) {
 				return cb(new gutil.PluginError('gulp-imagemin', err));
 			}

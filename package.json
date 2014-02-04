@@ -38,8 +38,8 @@
     "image-min": "~0.1.0",
     "graceful-fs": "~2.0.0",
     "filesize": "~2.0.0",
-    "temp-write": "~0.1.0",
-    "map-stream": "0.0.4"
+    "temp-write": "~0.2.0",
+    "map-stream": "~0.1.0"
   },
   "devDependencies": {
     "mocha": "*"
