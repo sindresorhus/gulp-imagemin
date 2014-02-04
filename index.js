@@ -17,7 +17,7 @@ module.exports = function (options) {
 			return cb(new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
 		}
 
-		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path)) === -1) {
+		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			gutil.log('gulp-imagemin: Skipping unsupported image ' + gutil.colors.blue(file.relative));
 			return cb(null, file);
 		}
