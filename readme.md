@@ -34,6 +34,13 @@ gulp.task('default', function () {
 
 See the image-min [options](https://github.com/kevva/image-min#options).
 
+#### options.silent
+
+Type: `Boolean`  
+Default: `false`
+
+Mutes all logging.
+
 
 ## License
 
