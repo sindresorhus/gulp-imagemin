@@ -35,11 +35,11 @@
   ],
   "dependencies": {
     "gulp-util": "~2.2.0",
-    "image-min": "~0.1.0",
-    "graceful-fs": "~2.0.0",
+    "image-min": "~0.2.0",
     "filesize": "~2.0.0",
-    "temp-write": "~0.2.0",
-    "map-stream": "~0.1.0"
+    "map-stream": "~0.1.0",
+    "xtend": "~2.2.0",
+    "concat-stream": "~1.4.4"
   },
   "devDependencies": {
     "mocha": "*"
