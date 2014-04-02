@@ -5,6 +5,8 @@ var gutil = require('gulp-util');
 var imagemin = require('./index');
 
 it('should minify images', function (cb) {
+	this.timeout(10000);
+
 	var stream = imagemin();
 
 	stream.on('data', function (file) {

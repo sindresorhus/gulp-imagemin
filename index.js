@@ -1,45 +1,48 @@
 'use strict';
 var path = require('path');
 var gutil = require('gulp-util');
-var map = require('map-stream');
-var filesize = require('filesize');
-var imagemin = require('image-min');
-var extend = require('xtend')
+var through = require('through2');
 var concat = require('concat-stream');
+var sbuff = require('simple-bufferstream');
+var assign = require('object-assign');
+var prettyBytes = require('pretty-bytes');
+var chalk = require('chalk');
+var imagemin = require('image-min');
 
 module.exports = function (options) {
-	return map(function (file, cb) {
+	options = assign({}, options || {});
+
+	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			return cb(null, file);
+			this.push(file);
+			return cb();
 		}
 
 		if (file.isStream()) {
-			return cb(new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
+			this.emit('error', new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
+			return cb();
 		}
 
-		var opts = extend(options);
-		if (!opts.ext) {
-			opts.ext = path.extname(file.path).toLowerCase();
+		options.ext = path.extname(file.path).toLowerCase();
+
+		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(options.ext) === -1) {
+			gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
+			this.push(file);
+			return cb();
 		}
 
-		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(opts.ext) === -1) {
-			gutil.log('gulp-imagemin: Skipping unsupported image ' + gutil.colors.blue(file.relative));
-			return cb(null, file);
-		}
-
-		var im = imagemin(opts)
-			.pipe(concat({encoding: 'buffer'}, function(data) {
+		sbuff(file.contents)
+			.pipe(imagemin(options))
+			.pipe(concat(function (data) {
 				var origSize = file.contents.length;
 				var saved = origSize - data.length;
-				var savedMsg = saved > 0 ? 'saved ' + filesize(saved, {round: 1}) : 'already optimized';
+				var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
 
-				gutil.log('gulp-imagemin:', gutil.colors.green('✔ ') + file.relative + gutil.colors.gray(' (' + savedMsg + ')'));
+				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
 
 				file.contents = data;
-				cb(null, file);
-			}))
-
-		im.write(file);
-		im.end();
+				this.push(file);
+				cb();
+			}.bind(this)));
 	});
 };
