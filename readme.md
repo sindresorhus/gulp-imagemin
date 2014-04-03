@@ -1,4 +1,4 @@
-# [gulp](https://github.com/wearefractal/gulp)-imagemin [![Build Status](https://secure.travis-ci.org/sindresorhus/gulp-imagemin.png?branch=master)](http://travis-ci.org/sindresorhus/gulp-imagemin)
+# [gulp](http://gulpjs.com)-imagemin [![Build Status](https://travis-ci.org/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-imagemin)
 
 > Minify PNG, JPEG and GIF images with [image-min](https://github.com/kevva/image-min)
 
@@ -7,14 +7,12 @@
 
 ## Install
 
-Install with [npm](https://npmjs.org/package/gulp-imagemin)
-
-```
-npm install --save-dev gulp-imagemin
+```bash
+$ npm install --save-dev gulp-imagemin
 ```
 
 
-## Example
+## Usage
 
 ```js
 var gulp = require('gulp');
@@ -37,4 +35,4 @@ See the image-min [options](https://github.com/kevva/image-min#options).
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
