@@ -11,6 +11,8 @@
 $ npm install --save-dev gulp-imagemin
 ```
 
+On OS X you're recommended to increase the [ulimit](http://superuser.com/a/443168/6877) as it's ridiculously low by default: `ulimit -S -n 2048`
+
 
 ## Usage
 
