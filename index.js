@@ -27,15 +27,30 @@ module.exports = function (options) {
 			return cb();
 		}
 
+		var size;
+		file.pipe(concat(function (data) {
+			size = data.length
+		}));
+
 		file.pipe(imagemin(options))
 			.pipe(concat(function (data) {
-				var origSize = file.contents.length;
-				var saved = origSize - data.length;
-				var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
+				var newSize = data.length;
+				var message;
 
-				log(chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
+				if (newSize === 0) {
+					message = 'could not be optimized';
+				}
+				else if (newSize < size) {
+					// replace file contents with optimized data
+					file.contents = data;
+					message = 'saved ' + prettyBytes(size - newSize);
+				}
+				else {
+					message = 'already optimized';
+				}
 
-				file.contents = data;
+				log(chalk.green('✔ ') + file.relative + chalk.gray(' (' + message + ')'));
+
 				this.push(file);
 				cb();
 			}.bind(this)));
