@@ -40,7 +40,6 @@
     "image-min": "^0.3.0",
     "object-assign": "^0.2.1",
     "pretty-bytes": "^0.1.0",
-    "simple-bufferstream": "^0.0.4",
     "through2": "^0.4.1"
   },
   "devDependencies": {

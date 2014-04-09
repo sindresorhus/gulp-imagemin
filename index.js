@@ -3,7 +3,6 @@ var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
 var concat = require('concat-stream');
-var sbuff = require('simple-bufferstream');
 var assign = require('object-assign');
 var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
@@ -17,12 +16,7 @@ module.exports = function (options) {
 			this.push(file);
 			return cb();
 		}
-
-		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
-			return cb();
-		}
-
+		
 		options.ext = path.extname(file.path).toLowerCase();
 
 		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(options.ext) === -1) {
@@ -31,8 +25,7 @@ module.exports = function (options) {
 			return cb();
 		}
 
-		sbuff(file.contents)
-			.pipe(imagemin(options))
+		file.pipe(imagemin(options))
 			.pipe(concat(function (data) {
 				var origSize = file.contents.length;
 				var saved = origSize - data.length;
