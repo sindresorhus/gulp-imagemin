@@ -24,6 +24,23 @@ it('should minify an image buffer', function (cb) {
 	}));
 });
 
+it('should minify an image stream', function (cb) {
+	this.timeout(40000);
+
+	var stream = imagemin();
+	var contents = fs.createReadStream('fixture.png');
+
+	stream.on('data', function (file) {
+		assert.notStrictEqual(file.contents, contents);
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		path: __dirname + '/fixture.png',
+		contents: contents
+	}));
+});
+
 it('should skip null files', function (cb) {
 	var stream = imagemin();
 
