@@ -24,6 +24,17 @@ it('should minify an image buffer', function (cb) {
 	}));
 });
 
+it('should skip null files', function (cb) {
+	var stream = imagemin();
+
+	stream.on('data', function (file) {
+		assert.strictEqual(file.contents, null);
+		cb();
+	});
+
+	stream.write(new gutil.File());
+});
+
 it('should skip unsupported images', function (cb) {
 	var stream = imagemin();
 	var contents = new Buffer(0);
