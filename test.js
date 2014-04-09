@@ -4,31 +4,37 @@ var assert = require('assert');
 var gutil = require('gulp-util');
 var imagemin = require('./index');
 
-it('should minify images', function (cb) {
+it('should minify an image buffer', function (cb) {
 	this.timeout(40000);
 
 	var stream = imagemin();
+	var contents = fs.readFileSync('fixture.png');
+	var size = contents.length;
 
 	stream.on('data', function (file) {
-		assert(file.contents.length < fs.statSync('fixture.png').size);
+		var newSize = file.contents.length;
+
+		assert(newSize < size, newSize + ' < ' + size);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		path: __dirname + '/fixture.png',
-		contents: fs.readFileSync('fixture.png')
+		contents: contents
 	}));
 });
 
 it('should skip unsupported images', function (cb) {
 	var stream = imagemin();
+	var contents = new Buffer(0);
 
 	stream.on('data', function (file) {
-		assert.strictEqual(file.contents, null);
+		assert.strictEqual(file.contents, contents);
 		cb();
 	});
 
 	stream.write(new gutil.File({
-		path: __dirname + '/fixture.bmp'
+		path: __dirname + '/fixture.bmp',
+		contents: contents
 	}));
 });
