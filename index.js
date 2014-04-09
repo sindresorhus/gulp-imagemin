@@ -8,6 +8,8 @@ var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var imagemin = require('image-min');
 
+var log = gutil.log.bind(gutil, 'gulp-imagemin:');
+
 module.exports = function (options) {
 	options = assign({}, options || {});
 
@@ -16,11 +18,11 @@ module.exports = function (options) {
 			this.push(file);
 			return cb();
 		}
-		
+
 		options.ext = path.extname(file.path).toLowerCase();
 
 		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(options.ext) === -1) {
-			gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
+			log('Skipping unsupported image ' + chalk.blue(file.relative));
 			this.push(file);
 			return cb();
 		}
@@ -31,7 +33,7 @@ module.exports = function (options) {
 				var saved = origSize - data.length;
 				var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
 
-				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
+				log(chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
 
 				file.contents = data;
 				this.push(file);
