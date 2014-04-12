@@ -21,7 +21,7 @@ var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
 
 gulp.task('default', function () {
-	gulp.src('src/image.png')
+	return gulp.src('src/image.png')
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist'));
 });
