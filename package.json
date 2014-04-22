@@ -35,12 +35,10 @@
   ],
   "dependencies": {
     "chalk": "^0.4.0",
-    "concat-stream": "^1.4.4",
     "gulp-util": "^2.2.0",
-    "image-min": "^0.3.0",
-    "object-assign": "^0.2.1",
+    "image-min": "^0.4.2",
+    "object-assign": "^0.3.0",
     "pretty-bytes": "^0.1.0",
-    "simple-bufferstream": "^0.0.4",
     "through2": "^0.4.1"
   },
   "devDependencies": {
