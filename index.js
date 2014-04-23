@@ -21,9 +21,7 @@ module.exports = function (options) {
 			return cb();
 		}
 
-		options.ext = path.extname(file.path).toLowerCase();
-
-		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(options.ext) === -1) {
+		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			this.push(file);
 			return cb();
