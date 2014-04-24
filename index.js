@@ -7,7 +7,7 @@ var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var Imagemin = require('image-min');
 
-module.exports = function (options) {
+module.exports = function (options, complete) {
 	options = assign({}, options || {});
 
 	return through.obj(function (file, enc, cb) {
@@ -50,6 +50,11 @@ module.exports = function (options) {
 
 			file.contents = data.contents;
 			this.push(file);
+
+			if (typeof complete === 'function' && this._writableState.buffer.length == 0) {
+				complete();
+			}
+
 			cb();
 		}.bind(this));
 	});
