@@ -19,10 +19,13 @@ On OS X you're recommended to increase the [ulimit](http://superuser.com/a/44316
 ```js
 var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
+var pngcrush = require('imagemin-pngcrush');
 
 gulp.task('default', function () {
 	return gulp.src('src/image.png')
-		.pipe(imagemin())
+		.pipe(imagemin({
+			use: [pngcrush()]
+		}))
 		.pipe(gulp.dest('dist'));
 });
 ```
@@ -32,7 +35,14 @@ gulp.task('default', function () {
 
 ### imagemin(options)
 
-See the image-min [options](https://github.com/kevva/image-min#options).
+#### use
+
+Type: `Array`  
+Default: `null`
+
+Accepts an Array of [plugins](https://npmjs.org/keyword/imageminplugin) to use with image-min.
+
+See the image-min documentation for more [options](https://github.com/kevva/image-min#plugins).
 
 
 ## License

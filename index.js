@@ -33,8 +33,8 @@ module.exports = function (options) {
 			.use(Imagemin.jpegtran(options.progressive))
 			.use(Imagemin.optipng(options.optimizationLevel));
 
-		if (options.pngquant) {
-			imagemin.use(Imagemin.pngquant());
+		if (options.use) {
+			options.use.forEach(imagemin.use.bind(imagemin));
 		}
 
 		imagemin.optimize(function (err, data) {
