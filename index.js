@@ -21,7 +21,7 @@ module.exports = function (options) {
 			return cb();
 		}
 
-		if (['.jpg', '.jpeg', '.png', '.gif'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
+		if (['.jpg', '.jpeg', '.png', '.gif', '.svg'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			this.push(file);
 			return cb();
@@ -31,7 +31,8 @@ module.exports = function (options) {
 			.src(file.contents)
 			.use(Imagemin.gifsicle(options.interlaced))
 			.use(Imagemin.jpegtran(options.progressive))
-			.use(Imagemin.optipng(options.optimizationLevel));
+			.use(Imagemin.optipng(options.optimizationLevel))
+			.use(Imagemin.svgo(options));
 
 		if (options.use) {
 			options.use.forEach(imagemin.use.bind(imagemin));
