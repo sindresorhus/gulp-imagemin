@@ -35,14 +35,16 @@ gulp.task('default', function () {
 
 ### imagemin(options)
 
-#### use
+#### options
 
-Type: `Array`  
+See the image-min documentation for more [options](https://github.com/kevva/image-min#plugins).
+
+##### use
+
+Type: `array`  
 Default: `null`
 
 Accepts an Array of [plugins](https://npmjs.org/keyword/imageminplugin) to use with image-min.
-
-See the image-min documentation for more [options](https://github.com/kevva/image-min#plugins).
 
 
 ## License
