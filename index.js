@@ -52,7 +52,7 @@ module.exports = function (options, complete) {
 			this.push(file);
 
 			if (typeof complete === 'function' && this._writableState.buffer.length == 0) {
-      			complete();
+				complete();
 			}
 
 			cb();
