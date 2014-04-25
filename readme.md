@@ -35,10 +35,10 @@ gulp.task('default', function () {
 
 Comes bundled with the following optimizers:
 
-- gifsicle — *Compress GIF images*
-- jpegtran — *Compress JPEG images*
-- optipng — *Compress PNG images*
-- svgo — *Compress SVG images*
+- [gifsicle](https://github.com/kevva/imagemin-gifsicle) — *Compress GIF images*
+- [jpegtran](https://github.com/kevva/imagemin-jpegtran) — *Compress JPEG images*
+- [optipng](https://github.com/kevva/imagemin-optipng) — *Compress PNG images*
+- [svgo](https://github.com/kevva/imagemin-svgo) — *Compress SVG images*
 
 ### imagemin(options)
 
