@@ -3,7 +3,7 @@ var fs = require('fs');
 var assert = require('assert');
 var gutil = require('gulp-util');
 var imagemin = require('./index');
-var pngcrush = require('imagemin-pngcrush');
+var pngquant = require('image-min').pngquant;
 var testSize;
 
 it('should minify images', function (cb) {
@@ -27,7 +27,7 @@ it('should have configure option', function (cb) {
 	this.timeout(40000);
 
 	var stream = imagemin({
-		use: [pngcrush()]
+		use: [pngquant()]
 	});
 
 	stream.on('data', function (file) {
