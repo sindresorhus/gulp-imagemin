@@ -32,7 +32,7 @@ module.exports = function (options) {
 			.use(Imagemin.gifsicle(options.interlaced))
 			.use(Imagemin.jpegtran(options.progressive))
 			.use(Imagemin.optipng(options.optimizationLevel))
-			.use(Imagemin.svgo(options));
+			.use(Imagemin.svgo({plugins: options.svgoPlugins || []}));
 
 		if (options.use) {
 			options.use.forEach(imagemin.use.bind(imagemin));

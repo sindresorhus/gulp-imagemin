@@ -22,8 +22,10 @@ var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
 
 gulp.task('default', function () {
-	return gulp.src('src/image.png')
+	return gulp.src('src/images/*')
 		.pipe(imagemin({
+			progressive: true
+			svgoPlugins: [{removeViewBox: false}],
 			use: [pngcrush()]
 		}))
 		.pipe(gulp.dest('dist'));
@@ -42,9 +44,13 @@ Comes bundled with the following optimizers:
 
 ### imagemin(options)
 
+Unsupported files are filtered out.
+
 #### options
 
-##### optimizationLevel *(png only)*
+Options are applied to the correct files.
+
+##### optimizationLevel *(png)*
 
 Type: `number`  
 Default: `3`
@@ -64,7 +70,7 @@ Level and trials:
 7. 240 trials
 
 
-##### progressive *(jpg only)*
+##### progressive *(jpg)*
 
 Type: `boolean`  
 Default: `false`
@@ -72,12 +78,19 @@ Default: `false`
 Lossless conversion to progressive.
 
 
-##### interlaced *(gif only)*
+##### interlaced *(gif)*
 
 Type: `boolean`  
 Default: `false`
 
 Interlace gif for progressive rendering.
+
+#### svgoPlugins *(svg)*
+
+Type: `array`  
+Default: `[]`
+
+Customize which SVGO plugins to use. [More here](https://github.com/sindresorhus/grunt-svgmin#available-optionsplugins).
 
 ##### use
 
