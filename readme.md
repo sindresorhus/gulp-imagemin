@@ -24,7 +24,7 @@ var pngcrush = require('imagemin-pngcrush');
 gulp.task('default', function () {
 	return gulp.src('src/images/*')
 		.pipe(imagemin({
-			progressive: true
+			progressive: true,
 			svgoPlugins: [{removeViewBox: false}],
 			use: [pngcrush()]
 		}))
