@@ -1,8 +1,8 @@
 # [gulp](http://gulpjs.com)-imagemin [![Build Status](https://travis-ci.org/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-imagemin)
 
-> Minify PNG, JPEG, GIF and SVG images with [image-min](https://github.com/kevva/image-min)
+> Minify PNG, JPEG, GIF and SVG images with [imagemin](https://github.com/kevva/imagemin)
 
-*Issues with the output should be reported on the image-min [issue tracker](https://github.com/kevva/image-min/issues).*
+*Issues with the output should be reported on the imagemin [issue tracker](https://github.com/kevva/imagemin/issues).*
 
 
 ## Install
@@ -97,7 +97,7 @@ Customize which SVGO plugins to use. [More here](https://github.com/sindresorhus
 Type: `array`  
 Default: `null`
 
-Additional [plugins](https://npmjs.org/keyword/imageminplugin) to use with image-min.
+Additional [plugins](https://npmjs.org/keyword/imageminplugin) to use with imagemin.
 
 
 ## License
