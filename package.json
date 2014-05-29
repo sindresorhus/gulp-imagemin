@@ -1,6 +1,6 @@
 {
   "name": "gulp-imagemin",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Minify PNG, JPEG, GIF and SVG images",
   "license": "MIT",
   "repository": "sindresorhus/gulp-imagemin",
