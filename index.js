@@ -41,6 +41,7 @@ module.exports = function (options) {
 		imagemin.optimize(function (err, data) {
 			if (err) {
 				this.emit('error', new gutil.PluginError('gulp-imagemin:', err));
+				return cb();
 			}
 
 			var saved = file.contents.length - data.contents.length;
