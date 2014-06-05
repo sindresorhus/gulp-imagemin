@@ -12,6 +12,10 @@ module.exports = function (options) {
 
 	options.verbose = process.argv.indexOf('--verbose') !== -1;
 
+	var totalBytes = 0;
+	var totalSavedBytes = 0;
+	var totalFiles = 0;
+
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			this.push(file);
@@ -51,6 +55,10 @@ module.exports = function (options) {
 			var saved = file.contents.length - data.contents.length;
 			var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
 
+			totalBytes += file.contents.length;
+			totalSavedBytes += saved;
+			totalFiles++;
+
 			if (options.verbose) {
 				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
 			}
@@ -59,5 +67,11 @@ module.exports = function (options) {
 			this.push(file);
 			cb();
 		}.bind(this));
+	}, function () {
+		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+		var msg  = 'Minified ' + totalFiles + ' ';
+				msg += totalFiles === 1 ? 'image' : 'images';
+				msg += gutil.colors.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1) + '%)');
+		gutil.log('gulp-imagemin:', msg);
 	});
 };
