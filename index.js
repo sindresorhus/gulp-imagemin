@@ -10,7 +10,7 @@ var Imagemin = require('imagemin');
 module.exports = function (options) {
 	options = assign({}, options || {});
 
-	if (options.verbose === undefined) options.verbose = process.argv.indexOf('--verbose') !== -1;
+	options.verbose = process.argv.indexOf('--verbose') !== -1;
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
