@@ -52,15 +52,19 @@ module.exports = function (options) {
 				return cb();
 			}
 
-			var saved = file.contents.length - data.contents.length;
-			var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
+			var originalSize = file.contents.length;
+			var optimizedSize = data.contents.length;
+			var saved = originalSize - optimizedSize;
+			var percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
+			var savedMsg = 'saved ' + prettyBytes(saved) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%';
+			var msg = saved > 0 ? savedMsg : 'already optimized';
 
-			totalBytes += file.contents.length;
+			totalBytes += originalSize;
 			totalSavedBytes += saved;
 			totalFiles++;
 
 			if (options.verbose) {
-				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
+				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + msg + ')'));
 			}
 
 			file.contents = data.contents;
@@ -69,9 +73,9 @@ module.exports = function (options) {
 		}.bind(this));
 	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		var msg  = 'Minified ' + totalFiles + ' ';
-				msg += totalFiles === 1 ? 'image' : 'images';
-				msg += gutil.colors.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1) + '%)');
+		var msg = 'Minified ' + totalFiles + ' ';
+		msg += totalFiles === 1 ? 'image' : 'images';
+		msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
 		gutil.log('gulp-imagemin:', msg);
 		cb();
 	});
