@@ -40,8 +40,7 @@
     "imagemin": "^0.4.2",
     "object-assign": "^0.3.0",
     "pretty-bytes": "^0.1.0",
-    "through2": "^0.4.1",
-    "yargs": "^1.2.2"
+    "through2": "^0.4.1"
   },
   "devDependencies": {
     "mocha": "*"

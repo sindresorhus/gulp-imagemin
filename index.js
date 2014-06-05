@@ -6,10 +6,11 @@ var assign = require('object-assign');
 var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var Imagemin = require('imagemin');
-var argv = require('yargs').argv;
 
 module.exports = function (options) {
 	options = assign({}, options || {});
+
+	if (options.verbose === undefined) options.verbose = process.argv.indexOf('--verbose') !== -1;
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
@@ -23,7 +24,7 @@ module.exports = function (options) {
 		}
 
 		if (['.jpg', '.jpeg', '.png', '.gif', '.svg'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
-			if (argv.verbose) {
+			if (options.verbose) {
 				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			}
 			this.push(file);
@@ -50,7 +51,7 @@ module.exports = function (options) {
 			var saved = file.contents.length - data.contents.length;
 			var savedMsg = saved > 0 ? 'saved ' + prettyBytes(saved) : 'already optimized';
 
-			if (argv.verbose) {
+			if (options.verbose) {
 				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + savedMsg + ')'));
 			}
 
