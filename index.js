@@ -67,11 +67,12 @@ module.exports = function (options) {
 			this.push(file);
 			cb();
 		}.bind(this));
-	}, function () {
+	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		var msg  = 'Minified ' + totalFiles + ' ';
 				msg += totalFiles === 1 ? 'image' : 'images';
 				msg += gutil.colors.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1) + '%)');
 		gutil.log('gulp-imagemin:', msg);
+		cb();
 	});
 };
