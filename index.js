@@ -37,9 +37,9 @@ module.exports = function (options) {
 
 		var imagemin = new Imagemin()
 			.src(file.contents)
-			.use(Imagemin.gifsicle(options.interlaced))
-			.use(Imagemin.jpegtran(options.progressive))
-			.use(Imagemin.optipng(options.optimizationLevel))
+			.use(Imagemin.gifsicle({interlaced: options.interlaced}))
+			.use(Imagemin.jpegtran({progressive: options.progressive}))
+			.use(Imagemin.optipng({optimizationLevel: options.optimizationLevel}))
 			.use(Imagemin.svgo({plugins: options.svgoPlugins || []}));
 
 		if (options.use) {
