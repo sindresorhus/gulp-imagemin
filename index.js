@@ -9,7 +9,6 @@ var Imagemin = require('imagemin');
 
 module.exports = function (options) {
 	options = assign({}, options || {});
-
 	options.verbose = process.argv.indexOf('--verbose') !== -1;
 
 	var totalBytes = 0;
@@ -31,6 +30,7 @@ module.exports = function (options) {
 			if (options.verbose) {
 				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			}
+
 			this.push(file);
 			return cb();
 		}
@@ -69,13 +69,16 @@ module.exports = function (options) {
 
 			file.contents = data.contents;
 			this.push(file);
+
 			cb();
 		}.bind(this));
 	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		var msg = 'Minified ' + totalFiles + ' ';
+
 		msg += totalFiles === 1 ? 'image' : 'images';
 		msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+
 		gutil.log('gulp-imagemin:', msg);
 		cb();
 	});
