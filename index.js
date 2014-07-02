@@ -9,7 +9,7 @@ var Imagemin = require('imagemin');
 
 module.exports = function (options) {
 	options = assign({}, options || {});
-	options.verbose = process.argv.indexOf('--verbose') !== -1;
+	options.verbose = !!options.verbose || process.argv.indexOf('--verbose') !== -1;
 
 	var totalBytes = 0;
 	var totalSavedBytes = 0;
