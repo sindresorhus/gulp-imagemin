@@ -73,13 +73,18 @@ module.exports = function (options) {
 			cb();
 		}.bind(this));
 	}, function (cb) {
-		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		var msg = 'Minified ' + totalFiles + ' ';
+		var percent, msg;
 
-		msg += totalFiles === 1 ? 'image' : 'images';
-		msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+		if (options.verbose) {
+			percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0,
+			msg = 'Minified ' + totalFiles + ' ';
 
-		gutil.log('gulp-imagemin:', msg);
+			msg += totalFiles === 1 ? 'image' : 'images';
+			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+
+			gutil.log('gulp-imagemin:', msg);
+		}
+
 		cb();
 	});
 };
