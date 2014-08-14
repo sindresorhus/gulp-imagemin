@@ -14,25 +14,26 @@ module.exports = function (options) {
 	var totalBytes = 0;
 	var totalSavedBytes = 0;
 	var totalFiles = 0;
+	var validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			this.push(file);
-			return cb();
+			cb(null, file);
+			return;
 		}
 
 		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
-			return cb();
+			cb(new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
+			return;
 		}
 
-		if (['.jpg', '.jpeg', '.png', '.gif', '.svg'].indexOf(path.extname(file.path).toLowerCase()) === -1) {
+		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (options.verbose) {
 				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			}
 
-			this.push(file);
-			return cb();
+			cb(null, file);
+			return;
 		}
 
 		var imagemin = new Imagemin()
@@ -48,8 +49,8 @@ module.exports = function (options) {
 
 		imagemin.optimize(function (err, data) {
 			if (err) {
-				this.emit('error', new gutil.PluginError('gulp-imagemin:', err, {fileName: file.path}));
-				return cb();
+				cb(new gutil.PluginError('gulp-imagemin:', err, {fileName: file.path}));
+				return;
 			}
 
 			var originalSize = file.contents.length;
@@ -68,10 +69,8 @@ module.exports = function (options) {
 			}
 
 			file.contents = data.contents;
-			this.push(file);
-
-			cb();
-		}.bind(this));
+			cb(null, file);
+		});
 	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		var msg = 'Minified ' + totalFiles + ' ';

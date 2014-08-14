@@ -7,7 +7,7 @@
 
 ## Install
 
-```bash
+```sh
 $ npm install --save-dev gulp-imagemin
 ```
 
@@ -41,7 +41,7 @@ Comes bundled with the following optimizers:
 
 ### imagemin(options)
 
-Unsupported files are filtered out.
+Unsupported files ignored.
 
 #### options
 
@@ -66,14 +66,12 @@ Level and trials:
 6. 120 trials
 7. 240 trials
 
-
 ##### progressive *(jpg)*
 
 Type: `boolean`  
 Default: `false`
 
 Lossless conversion to progressive.
-
 
 ##### interlaced *(gif)*
 
@@ -99,4 +97,4 @@ Additional [plugins](https://npmjs.org/keyword/imageminplugin) to use with image
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](http://sindresorhus.com)

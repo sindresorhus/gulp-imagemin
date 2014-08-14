@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha --timeout 0"
+    "test": "mocha --timeout 50000"
   },
   "files": [
     "index.js"
@@ -37,10 +37,10 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "gulp-util": "^3.0.0",
-    "imagemin": "^0.4.2",
-    "object-assign": "^0.3.0",
-    "pretty-bytes": "^0.1.0",
-    "through2": "^0.5.1"
+    "imagemin": "^0.4.9",
+    "object-assign": "^1.0.0",
+    "pretty-bytes": "^1.0.1",
+    "through2": "^0.6.1"
   },
   "devDependencies": {
     "mocha": "*"
