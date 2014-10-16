@@ -47,14 +47,14 @@ module.exports = function (options) {
 			options.use.forEach(imagemin.use.bind(imagemin));
 		}
 
-		imagemin.optimize(function (err, data) {
+		imagemin.run(function (err, files) {
 			if (err) {
 				cb(new gutil.PluginError('gulp-imagemin:', err, {fileName: file.path}));
 				return;
 			}
 
 			var originalSize = file.contents.length;
-			var optimizedSize = data.contents.length;
+			var optimizedSize = files[0].contents.length;
 			var saved = originalSize - optimizedSize;
 			var percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
 			var savedMsg = 'saved ' + prettyBytes(saved) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%';
@@ -68,7 +68,7 @@ module.exports = function (options) {
 				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + msg + ')'));
 			}
 
-			file.contents = data.contents;
+			file.contents = files[0].contents;
 			cb(null, file);
 		});
 	}, function (cb) {
