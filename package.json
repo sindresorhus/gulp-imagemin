@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "chalk": "^0.5.1",
+    "each-async": "^1.1.0",
     "gulp-util": "^3.0.0",
     "imagemin": "^2.0.0",
     "object-assign": "^1.0.0",
