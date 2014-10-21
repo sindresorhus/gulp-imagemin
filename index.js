@@ -1,7 +1,7 @@
 'use strict';
 var path = require('path');
 var gutil = require('gulp-util');
-var through = require('through2');
+var through = require('through2-concurrent');
 var assign = require('object-assign');
 var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
