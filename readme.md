@@ -16,14 +16,14 @@ $ npm install --save-dev gulp-imagemin
 ```js
 var gulp = require('gulp');
 var imagemin = require('gulp-imagemin');
-var pngcrush = require('imagemin-pngcrush');
+var pngquant = require('imagemin-pngquant');
 
 gulp.task('default', function () {
 	return gulp.src('src/images/*')
 		.pipe(imagemin({
 			progressive: true,
 			svgoPlugins: [{removeViewBox: false}],
-			use: [pngcrush()]
+			use: [pngquant()]
 		}))
 		.pipe(gulp.dest('dist'));
 });
