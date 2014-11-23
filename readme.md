@@ -41,7 +41,7 @@ Comes bundled with the following optimizers:
 
 ### imagemin(options)
 
-Unsupported files ignored.
+Unsupported files are ignored.
 
 #### options
 
