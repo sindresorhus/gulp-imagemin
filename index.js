@@ -76,7 +76,10 @@ module.exports = function (options) {
 		var msg = 'Minified ' + totalFiles + ' ';
 
 		msg += totalFiles === 1 ? 'image' : 'images';
-		msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+
+		if (totalFiles > 0) {
+			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+		}
 
 		gutil.log('gulp-imagemin:', msg);
 		cb();
