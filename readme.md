@@ -49,7 +49,7 @@ Options are applied to the correct files.
 
 ##### optimizationLevel *(png)*
 
-Type: `number`  
+Type: `number`
 Default: `3`
 
 Select an optimization level between `0` and `7`.
@@ -68,31 +68,38 @@ Level and trials:
 
 ##### progressive *(jpg)*
 
-Type: `boolean`  
+Type: `boolean`
 Default: `false`
 
 Lossless conversion to progressive.
 
 ##### interlaced *(gif)*
 
-Type: `boolean`  
+Type: `boolean`
 Default: `false`
 
 Interlace gif for progressive rendering.
 
 ##### svgoPlugins *(svg)*
 
-Type: `array`  
+Type: `array`
 Default: `[]`
 
 Customize which SVGO plugins to use. [More here](https://github.com/sindresorhus/grunt-svgmin#available-optionsplugins).
 
 ##### use
 
-Type: `array`  
+Type: `array`
 Default: `null`
 
 Additional [plugins](https://npmjs.org/keyword/imageminplugin) to use with imagemin.
+
+##### verbose
+
+Type: `boolean`
+Default: `false`
+
+Enable verbose output: Show individual file statistics, unsupported file warnings, etc. Alternatively you can use gulp's `--verbose` flag.
 
 
 ## License
