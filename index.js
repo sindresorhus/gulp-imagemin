@@ -7,9 +7,9 @@ var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var Imagemin = require('imagemin');
 
-module.exports = function (options) {
-	options = assign({}, options || {});
-	options.verbose = process.argv.indexOf('--verbose') !== -1;
+module.exports = function (opts) {
+	opts = assign({}, opts);
+	opts.verbose = process.argv.indexOf('--verbose') !== -1;
 
 	var totalBytes = 0;
 	var totalSavedBytes = 0;
@@ -28,7 +28,7 @@ module.exports = function (options) {
 		}
 
 		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
-			if (options.verbose) {
+			if (opts.verbose) {
 				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			}
 
@@ -38,13 +38,13 @@ module.exports = function (options) {
 
 		var imagemin = new Imagemin()
 			.src(file.contents)
-			.use(Imagemin.gifsicle({interlaced: options.interlaced}))
-			.use(Imagemin.jpegtran({progressive: options.progressive}))
-			.use(Imagemin.optipng({optimizationLevel: options.optimizationLevel}))
-			.use(Imagemin.svgo({plugins: options.svgoPlugins || []}));
+			.use(Imagemin.gifsicle({interlaced: opts.interlaced}))
+			.use(Imagemin.jpegtran({progressive: opts.progressive}))
+			.use(Imagemin.optipng({optimizationLevel: opts.optimizationLevel}))
+			.use(Imagemin.svgo({plugins: opts.svgoPlugins || []}));
 
-		if (options.use) {
-			options.use.forEach(imagemin.use.bind(imagemin));
+		if (opts.use) {
+			opts.use.forEach(imagemin.use.bind(imagemin));
 		}
 
 		imagemin.run(function (err, files) {
@@ -64,7 +64,7 @@ module.exports = function (options) {
 			totalSavedBytes += saved;
 			totalFiles++;
 
-			if (options.verbose) {
+			if (opts.verbose) {
 				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + msg + ')'));
 			}
 
