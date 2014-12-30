@@ -8,7 +8,7 @@ var chalk = require('chalk');
 var Imagemin = require('imagemin');
 
 module.exports = function (opts) {
-	opts = assign({}, {
+	opts = assign({
 		// TODO: remove this when gulp get's a real logger with levels
 		verbose: process.argv.indexOf('--verbose') !== -1
 	}, opts);
