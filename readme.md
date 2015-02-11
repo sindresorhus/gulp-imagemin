@@ -80,6 +80,13 @@ Default: `false`
 
 Interlace gif for progressive rendering.
 
+##### multipass *(svg)*
+
+Type: `boolean`  
+Default: `false`
+
+Optimize svg multiple times until it's fully optimized.
+
 ##### svgoPlugins *(svg)*
 
 Type: `array`  
