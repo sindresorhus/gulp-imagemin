@@ -43,7 +43,10 @@ module.exports = function (opts) {
 			.use(Imagemin.gifsicle({interlaced: opts.interlaced}))
 			.use(Imagemin.jpegtran({progressive: opts.progressive}))
 			.use(Imagemin.optipng({optimizationLevel: opts.optimizationLevel}))
-			.use(Imagemin.svgo({plugins: opts.svgoPlugins || []}));
+			.use(Imagemin.svgo({
+				plugins: opts.svgoPlugins || [],
+				multipass: opts.multipass
+			}));
 
 		if (opts.use) {
 			opts.use.forEach(imagemin.use.bind(imagemin));
