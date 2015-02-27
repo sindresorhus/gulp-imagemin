@@ -77,16 +77,19 @@ module.exports = function (opts) {
 			cb(null, file);
 		});
 	}, function (cb) {
-		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		var msg = 'Minified ' + totalFiles + ' ';
+		if (opts.verbose) {
+			var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+			var msg = 'Minified ' + totalFiles + ' ';
 
-		msg += totalFiles === 1 ? 'image' : 'images';
+			msg += totalFiles === 1 ? 'image' : 'images';
 
-		if (totalFiles > 0) {
-			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+			if (totalFiles > 0) {
+				msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+			}
+
+			gutil.log('gulp-imagemin:', msg);
 		}
-
-		gutil.log('gulp-imagemin:', msg);
+		
 		cb();
 	});
 };
