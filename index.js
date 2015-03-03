@@ -9,8 +9,9 @@ var Imagemin = require('imagemin');
 
 module.exports = function (opts) {
 	opts = assign({
-		// TODO: remove this when gulp get's a real logger with levels
-		verbose: process.argv.indexOf('--verbose') !== -1
+		// TODO: remove these when gulp gets a real logger with levels
+		verbose: process.argv.indexOf('--verbose') !== -1,
+		quiet: false
 	}, opts);
 
 	var totalBytes = 0;
@@ -77,6 +78,11 @@ module.exports = function (opts) {
 			cb(null, file);
 		});
 	}, function (cb) {
+		if (opts.quiet) {
+			cb();
+			return;
+		}
+
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		var msg = 'Minified ' + totalFiles + ' ';
 
