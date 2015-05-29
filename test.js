@@ -2,7 +2,7 @@
 var fs = require('fs');
 var assert = require('assert');
 var gutil = require('gulp-util');
-var pngquant = require('imagemin').pngquant;
+var pngquant = require('imagemin-pngquant');
 var imagemin = require('./');
 var testSize;
 

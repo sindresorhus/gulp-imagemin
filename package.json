@@ -43,6 +43,7 @@
     "through2-concurrent": "^0.3.0"
   },
   "devDependencies": {
+    "imagemin-pngquant": "^4.1.0",
     "mocha": "*"
   }
 }
