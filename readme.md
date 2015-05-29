@@ -99,7 +99,7 @@ Customize which SVGO plugins to use. [More here](https://github.com/sindresorhus
 Type: `array`  
 Default: `null`
 
-Additional [plugins](https://npmjs.org/keyword/imageminplugin) to use with imagemin.
+Additional [plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use with imagemin.
 
 
 ## License
