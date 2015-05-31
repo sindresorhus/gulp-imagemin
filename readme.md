@@ -32,7 +32,7 @@ gulp.task('default', function () {
 
 ## API
 
-Comes bundled with the following optimizers:
+Comes bundled with the following **lossless** optimizers:
 
 - [gifsicle](https://github.com/kevva/imagemin-gifsicle) — *Compress GIF images*
 - [jpegtran](https://github.com/kevva/imagemin-jpegtran) — *Compress JPEG images*
