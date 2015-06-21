@@ -6,6 +6,7 @@ var assign = require('object-assign');
 var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var Imagemin = require('imagemin');
+var plur = require('plur');
 
 module.exports = function (opts) {
 	opts = assign({
@@ -78,9 +79,7 @@ module.exports = function (opts) {
 		});
 	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		var msg = 'Minified ' + totalFiles + ' ';
-
-		msg += totalFiles === 1 ? 'image' : 'images';
+		var msg = 'Minified ' + totalFiles + ' ' + plur('image', totalFiles);
 
 		if (totalFiles > 0) {
 			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
