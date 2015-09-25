@@ -31,7 +31,7 @@ module.exports = function (opts) {
 		}
 
 		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
-			if (opts.verbose) {
+			if (opts.verbose && !opts.silent) {
 				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
 			}
 
@@ -70,7 +70,7 @@ module.exports = function (opts) {
 			totalSavedBytes += saved;
 			totalFiles++;
 
-			if (opts.verbose) {
+			if (opts.verbose && !opts.silent) {
 				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + msg + ')'));
 			}
 
@@ -85,7 +85,9 @@ module.exports = function (opts) {
 			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
 		}
 
-		gutil.log('gulp-imagemin:', msg);
+		if (!opts.silent) {
+			gutil.log('gulp-imagemin:', msg);
+		}
 		cb();
 	});
 };
