@@ -1,5 +1,7 @@
+/* eslint-env mocha */
 'use strict';
 var fs = require('fs');
+var path = require('path');
 var assert = require('assert');
 var gutil = require('gulp-util');
 var pngquant = require('imagemin-pngquant');
@@ -22,7 +24,7 @@ it('should minify images', function (cb) {
 	stream.on('end', cb);
 
 	stream.write(new gutil.File({
-		path: __dirname + '/fixture.png',
+		path: path.join(__dirname, 'fixture.png'),
 		contents: fs.readFileSync('fixture.png')
 	}));
 
@@ -43,7 +45,7 @@ it('should have configure option', function (cb) {
 	stream.on('end', cb);
 
 	stream.write(new gutil.File({
-		path: __dirname + '/fixture.png',
+		path: path.join(__dirname, 'fixture.png'),
 		contents: fs.readFileSync('fixture.png')
 	}));
 
@@ -60,7 +62,7 @@ it('should skip unsupported images', function (cb) {
 	stream.on('end', cb);
 
 	stream.write(new gutil.File({
-		path: __dirname + '/fixture.bmp'
+		path: path.join(__dirname, 'fixture.bmp')
 	}));
 
 	stream.end();

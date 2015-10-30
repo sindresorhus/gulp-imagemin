@@ -11,14 +11,15 @@
 $ npm install --save-dev gulp-imagemin
 ```
 
+
 ## Usage
 
 ```js
-var gulp = require('gulp');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
+const gulp = require('gulp');
+const imagemin = require('gulp-imagemin');
+const pngquant = require('imagemin-pngquant');
 
-gulp.task('default', function () {
+gulp.task('default', () => {
 	return gulp.src('src/images/*')
 		.pipe(imagemin({
 			progressive: true,
@@ -39,7 +40,7 @@ Comes bundled with the following **lossless** optimizers:
 - [optipng](https://github.com/kevva/imagemin-optipng) — *Compress PNG images*
 - [svgo](https://github.com/kevva/imagemin-svgo) — *Compress SVG images*
 
-### imagemin(options)
+### imagemin([options])
 
 Unsupported files are ignored.
 
