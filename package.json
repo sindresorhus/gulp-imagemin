@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "imagemin-pngquant": "^4.1.0",
+    "mocha": "*",
     "xo": "*"
   }
 }
