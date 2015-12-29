@@ -9,9 +9,11 @@ var Imagemin = require('imagemin');
 var plur = require('plur');
 
 module.exports = function (opts) {
+	var argv = require('minimist')(process.argv.slice(2));
+
 	opts = assign({
 		// TODO: remove this when gulp get's a real logger with levels
-		verbose: process.argv.indexOf('--verbose') !== -1
+		verbose: !argv.silent || false
 	}, opts);
 
 	var totalBytes = 0;
