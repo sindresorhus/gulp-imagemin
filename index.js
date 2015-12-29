@@ -87,7 +87,10 @@ module.exports = function (opts) {
 			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
 		}
 
-		gutil.log('gulp-imagemin:', msg);
+		if (opts.verbose) {
+			gutil.log('gulp-imagemin:', msg);
+		}
+
 		cb();
 	});
 };
