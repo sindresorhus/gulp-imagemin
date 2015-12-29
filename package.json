@@ -38,6 +38,7 @@
     "chalk": "^1.0.0",
     "gulp-util": "^3.0.0",
     "imagemin": "^4.0.0",
+    "minimist": "^1.2.0",
     "object-assign": "^4.0.1",
     "plur": "^2.0.0",
     "pretty-bytes": "^2.0.1",
