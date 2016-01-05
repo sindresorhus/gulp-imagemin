@@ -84,7 +84,6 @@ module.exports = function (opts) {
 			if (totalFiles > 0) {
 				msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
 			}
-	
 			gutil.log('gulp-imagemin:', msg);
 		}
 		cb();
