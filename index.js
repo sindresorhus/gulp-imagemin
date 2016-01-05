@@ -80,12 +80,12 @@ module.exports = function (opts) {
 	}, function (cb) {
 		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		var msg = 'Minified ' + totalFiles + ' ' + plur('image', totalFiles);
-
-		if (totalFiles > 0) {
-			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+		if (opts.verbose) {
+			if (totalFiles > 0) {
+				msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+			}
+			gutil.log('gulp-imagemin:', msg);
 		}
-
-		gutil.log('gulp-imagemin:', msg);
 		cb();
 	});
 };
