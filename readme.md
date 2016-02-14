@@ -23,7 +23,10 @@ gulp.task('default', () => {
 	return gulp.src('src/images/*')
 		.pipe(imagemin({
 			progressive: true,
-			svgoPlugins: [{removeViewBox: false}],
+			svgoPlugins: [
+				{removeViewBox: false},
+				{cleanupIDs: false}
+			],
 			use: [pngquant()]
 		}))
 		.pipe(gulp.dest('dist/images'));
