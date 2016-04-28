@@ -1,69 +1,46 @@
-/* eslint-env mocha */
-'use strict';
-var fs = require('fs');
-var path = require('path');
-var assert = require('assert');
-var gutil = require('gulp-util');
-var pngquant = require('imagemin-pngquant');
-var imagemin = require('./');
-var testSize;
+import fs from 'fs';
+import path from 'path';
+import gutil from 'gulp-util';
+import imageminPngquant from 'imagemin-pngquant';
+import pify from 'pify';
+import getStream from 'get-stream';
+import test from 'ava';
+import m from './';
 
-it('should minify images', function (cb) {
-	this.timeout(40000);
+const fsP = pify(fs);
 
-	var stream = imagemin({
-		optimizationLevel: 0
-	});
+const createFixture = async opts => {
+	const buf = await fsP.readFile('fixture.png');
+	const stream = m(opts);
 
-	stream.once('data', function (file) {
-		testSize = file.contents.length;
-		console.log(fs.statSync('fixture.png').size, file.contents.length);
-		assert(file.contents.length < fs.statSync('fixture.png').size);
-	});
-
-	stream.on('end', cb);
-
-	stream.write(new gutil.File({
+	stream.end(new gutil.File({
 		path: path.join(__dirname, 'fixture.png'),
-		contents: fs.readFileSync('fixture.png')
+		contents: buf
 	}));
 
-	stream.end();
+	return {buf, stream};
+};
+
+test('minify images', async t => {
+	const {buf, stream} = await createFixture({optimizationLevel: 0});
+	const file = await getStream.array(stream);
+
+	t.true(file[0].contents.length < buf.length);
 });
 
-it('should have configure option', function (cb) {
-	this.timeout(40000);
+test('use custom plugins', async t => {
+	const {stream} = await createFixture({use: [imageminPngquant()]});
+	const compareStream = (await createFixture()).stream;
+	const file = await getStream.array(stream);
+	const compareFile = await getStream.array(compareStream);
 
-	var stream = imagemin({
-		use: [pngquant()]
-	});
-
-	stream.once('data', function (file) {
-		assert(file.contents.length < testSize);
-	});
-
-	stream.on('end', cb);
-
-	stream.write(new gutil.File({
-		path: path.join(__dirname, 'fixture.png'),
-		contents: fs.readFileSync('fixture.png')
-	}));
-
-	stream.end();
+	t.true(file[0].contents.length < compareFile[0].contents.length);
 });
 
-it('should skip unsupported images', function (cb) {
-	var stream = imagemin();
+test('skip unsupported images', async t => {
+	const stream = m();
+	stream.end(new gutil.File({path: path.join(__dirname, 'fixture.bmp')}));
+	const file = await getStream.array(stream);
 
-	stream.once('data', function (file) {
-		assert.strictEqual(file.contents, null);
-	});
-
-	stream.on('end', cb);
-
-	stream.write(new gutil.File({
-		path: path.join(__dirname, 'fixture.bmp')
-	}));
-
-	stream.end();
+	t.is(file[0].contents, null);
 });

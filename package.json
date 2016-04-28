@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "xo && mocha --timeout 50000"
+    "test": "xo && ava"
   },
   "files": [
     "index.js"
@@ -44,8 +44,10 @@
     "through2-concurrent": "^1.1.0"
   },
   "devDependencies": {
+    "ava": "*",
+    "get-stream": "^2.1.0",
     "imagemin-pngquant": "^4.1.0",
-    "mocha": "*",
+    "pify": "^2.3.0",
     "xo": "*"
   }
 }
