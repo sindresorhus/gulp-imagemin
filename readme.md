@@ -1,8 +1,8 @@
 # gulp-imagemin [![Build Status](https://travis-ci.org/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-imagemin)
 
-> Minify PNG, JPEG, GIF and SVG images with [imagemin](https://github.com/kevva/imagemin)
+> Minify PNG, JPEG, GIF and SVG images with [imagemin](https://github.com/imagemin/imagemin)
 
-*Issues with the output should be reported on the imagemin [issue tracker](https://github.com/kevva/imagemin/issues).*
+*Issues with the output should be reported on the imagemin [issue tracker](https://github.com/imagemin/imagemin/issues).*
 
 
 ## Install
@@ -30,10 +30,10 @@ gulp.task('default', () => {
 
 Comes bundled with the following **lossless** optimizers:
 
-- [gifsicle](https://github.com/kevva/imagemin-gifsicle) — *Compress GIF images*
-- [mozjpeg](https://github.com/kevva/imagemin-mozjpeg) — *Compress JPEG images*
-- [optipng](https://github.com/kevva/imagemin-optipng) — *Compress PNG images*
-- [svgo](https://github.com/kevva/imagemin-svgo) — *Compress SVG images*
+- [gifsicle](https://github.com/imagemin/imagemin-gifsicle) — *Compress GIF images*
+- [mozjpeg](https://github.com/imagemin/imagemin-mozjpeg) — *Compress JPEG images*
+- [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
+- [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
 
 ### imagemin([plugins], [options])
 
@@ -41,16 +41,16 @@ Unsupported files are ignored.
 
 #### plugins
 
-Type: `array`
-Default: `[imageminGifsicle(), imageminMozjpeg(), imageminOptipng({optimizationLevel: 3}), imageminSvgo({multipass: true})]`
+Type: `array`<br>
+Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng({optimizationLevel: 3}), imagemin.svgo({multipass: true})]`
 
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use with imagemin. This will overwrite the default plugins.
+[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use with imagemin. This will overwrite the default plugins. Note that the default plugins comes with good default options and should be sufficient in most cases.
 
 #### options
 
 ##### verbose
 
-Type: `boolean`  
+Type: `boolean`<br>
 Default: `false`
 
 Output more detailed information.
@@ -58,4 +58,4 @@ Output more detailed information.
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)
