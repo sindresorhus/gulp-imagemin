@@ -9,9 +9,9 @@ import m from './';
 
 const fsP = pify(fs);
 
-const createFixture = async opts => {
+const createFixture = async plugins => {
 	const buf = await fsP.readFile('fixture.png');
-	const stream = m(opts);
+	const stream = m(plugins);
 
 	stream.end(new gutil.File({
 		path: path.join(__dirname, 'fixture.png'),
@@ -22,14 +22,14 @@ const createFixture = async opts => {
 };
 
 test('minify images', async t => {
-	const {buf, stream} = await createFixture({optimizationLevel: 0});
+	const {buf, stream} = await createFixture();
 	const file = await getStream.array(stream);
 
 	t.true(file[0].contents.length < buf.length);
 });
 
 test('use custom plugins', async t => {
-	const {stream} = await createFixture({use: [imageminPngquant()]});
+	const {stream} = await createFixture([imageminPngquant()]);
 	const compareStream = (await createFixture()).stream;
 	const file = await getStream.array(stream);
 	const compareFile = await getStream.array(compareStream);

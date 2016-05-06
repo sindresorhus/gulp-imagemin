@@ -1,25 +1,34 @@
 'use strict';
-var path = require('path');
-var gutil = require('gulp-util');
-var through = require('through2-concurrent');
-var assign = require('object-assign');
-var prettyBytes = require('pretty-bytes');
-var chalk = require('chalk');
-var Imagemin = require('imagemin');
-var plur = require('plur');
+const path = require('path');
+const gutil = require('gulp-util');
+const through = require('through2-concurrent');
+const prettyBytes = require('pretty-bytes');
+const chalk = require('chalk');
+const imagemin = require('imagemin');
+const imageminGifsicle = require('imagemin-gifsicle');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminOptipng = require('imagemin-optipng');
+const imageminSvgo = require('imagemin-svgo');
+const plur = require('plur');
 
-module.exports = function (opts) {
-	opts = assign({
+module.exports = (plugins, opts) => {
+	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
+		opts = plugins;
+		plugins = null;
+	}
+
+	opts = Object.assign({
 		// TODO: remove this when gulp get's a real logger with levels
 		verbose: process.argv.indexOf('--verbose') !== -1
 	}, opts);
 
-	var totalBytes = 0;
-	var totalSavedBytes = 0;
-	var totalFiles = 0;
-	var validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
+	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
 
-	return through.obj(function (file, enc, cb) {
+	let totalBytes = 0;
+	let totalSavedBytes = 0;
+	let totalFiles = 0;
+
+	return through.obj((file, enc, cb) => {
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -32,60 +41,57 @@ module.exports = function (opts) {
 
 		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (opts.verbose) {
-				gutil.log('gulp-imagemin: Skipping unsupported image ' + chalk.blue(file.relative));
+				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
 			cb(null, file);
 			return;
 		}
 
-		var imagemin = new Imagemin()
-			.src(file.contents)
-			.use(Imagemin.gifsicle({interlaced: opts.interlaced}))
-			.use(Imagemin.jpegtran({progressive: opts.progressive}))
-			.use(Imagemin.optipng({optimizationLevel: opts.optimizationLevel}))
-			.use(Imagemin.svgo({
-				plugins: opts.svgoPlugins || [],
-				multipass: opts.multipass
-			}));
+		const use = plugins || [
+			imageminGifsicle(),
+			imageminMozjpeg(),
+			imageminOptipng({optimizationLevel: 3}),
+			imageminSvgo({multipass: true})
+		];
 
-		if (opts.use) {
-			opts.use.forEach(imagemin.use.bind(imagemin));
-		}
+		imagemin.buffer(file.contents, {use})
+			.then(data => {
+				const originalSize = file.contents.length;
+				const optimizedSize = data.length;
+				const saved = originalSize - optimizedSize;
+				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
+				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
+				const msg = saved > 0 ? savedMsg : 'already optimized';
 
-		imagemin.run(function (err, files) {
-			if (err) {
+				totalBytes += originalSize;
+				totalSavedBytes += saved;
+				totalFiles++;
+
+				if (opts.verbose) {
+					gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
+				}
+
+				file.contents = data;
+				cb(null, file);
+			})
+			.catch(err => {
 				cb(new gutil.PluginError('gulp-imagemin:', err, {fileName: file.path}));
-				return;
-			}
-
-			var originalSize = file.contents.length;
-			var optimizedSize = files[0].contents.length;
-			var saved = originalSize - optimizedSize;
-			var percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
-			var savedMsg = 'saved ' + prettyBytes(saved) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%';
-			var msg = saved > 0 ? savedMsg : 'already optimized';
-
-			totalBytes += originalSize;
-			totalSavedBytes += saved;
-			totalFiles++;
-
-			if (opts.verbose) {
-				gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(' (' + msg + ')'));
-			}
-
-			file.contents = files[0].contents;
-			cb(null, file);
-		});
-	}, function (cb) {
-		var percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		var msg = 'Minified ' + totalFiles + ' ' + plur('image', totalFiles);
+			});
+	}, cb => {
+		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+		let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
 
 		if (totalFiles > 0) {
-			msg += chalk.gray(' (saved ' + prettyBytes(totalSavedBytes) + ' - ' + percent.toFixed(1).replace(/\.0$/, '') + '%)');
+			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
 
 		gutil.log('gulp-imagemin:', msg);
 		cb();
 	});
 };
+
+module.exports.gifsicle = imageminGifsicle;
+module.exports.mozjpeg = imageminMozjpeg;
+module.exports.optipng = imageminOptipng;
+module.exports.svgo = imageminSvgo;

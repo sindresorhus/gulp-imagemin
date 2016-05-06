@@ -10,7 +10,7 @@
     "url": "sindresorhus.com"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "xo && ava"
@@ -37,8 +37,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "gulp-util": "^3.0.0",
-    "imagemin": "^4.0.0",
-    "object-assign": "^4.0.1",
+    "imagemin": "^5.0.0",
     "plur": "^2.0.0",
     "pretty-bytes": "^2.0.1",
     "through2-concurrent": "^1.1.0"
@@ -46,8 +45,17 @@
   "devDependencies": {
     "ava": "*",
     "get-stream": "^2.1.0",
-    "imagemin-pngquant": "^4.1.0",
+    "imagemin-pngquant": "^5.0.0",
     "pify": "^2.3.0",
     "xo": "*"
+  },
+  "optionalDependencies": {
+    "imagemin-gifsicle": "^5.0.0",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-optipng": "^5.0.0",
+    "imagemin-svgo": "^5.0.1"
+  },
+  "xo": {
+    "esnext": true
   }
 }
