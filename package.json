@@ -52,8 +52,8 @@
   "optionalDependencies": {
     "imagemin-gifsicle": "^5.0.0",
     "imagemin-mozjpeg": "^6.0.0",
-    "imagemin-optipng": "^5.0.0",
-    "imagemin-svgo": "^5.0.1"
+    "imagemin-optipng": "^5.1.0",
+    "imagemin-svgo": "^5.1.0"
   },
   "xo": {
     "esnext": true

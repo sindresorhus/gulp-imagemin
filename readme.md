@@ -42,7 +42,7 @@ Unsupported files are ignored.
 #### plugins
 
 Type: `array`<br>
-Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng({optimizationLevel: 3}), imagemin.svgo({multipass: true})]`
+Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin.svgo()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use with imagemin. This will overwrite the default plugins. Note that the default plugins comes with good default options and should be sufficient in most cases.
 

@@ -51,8 +51,8 @@ module.exports = (plugins, opts) => {
 		const use = plugins || [
 			imageminGifsicle(),
 			imageminMozjpeg(),
-			imageminOptipng({optimizationLevel: 3}),
-			imageminSvgo({multipass: true})
+			imageminOptipng(),
+			imageminSvgo()
 		];
 
 		imagemin.buffer(file.contents, {use})
