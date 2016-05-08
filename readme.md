@@ -18,11 +18,11 @@ $ npm install --save-dev gulp-imagemin
 const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
 
-gulp.task('default', () => {
-	return gulp.src('src/images/*')
+gulp.task('default', () =>
+	gulp.src('src/images/*')
 		.pipe(imagemin())
-		.pipe(gulp.dest('dist/images'));
-});
+		.pipe(gulp.dest('dist/images'))
+);
 ```
 
 
@@ -35,6 +35,8 @@ Comes bundled with the following **lossless** optimizers:
 - [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
 - [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
 
+These are bundled for convenience and most will not need anything else.
+
 ### imagemin([plugins], [options])
 
 Unsupported files are ignored.
@@ -44,7 +46,7 @@ Unsupported files are ignored.
 Type: `array`<br>
 Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin.svgo()]`
 
-[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use with imagemin. This will overwrite the default plugins. Note that the default plugins comes with good default options and should be sufficient in most cases.
+[Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the default plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 
 #### options
 
