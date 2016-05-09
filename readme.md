@@ -37,7 +37,7 @@ Comes bundled with the following **lossless** optimizers:
 
 These are bundled for convenience and most will not need anything else.
 
-### imagemin([plugins], [options])
+### imagemin([plugins], {options})
 
 Unsupported files are ignored.
 
@@ -49,7 +49,8 @@ Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the default plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 
 #### options
-
+object of options
+eg: pipe(imagemin([plugins],{verbose:true})
 ##### verbose
 
 Type: `boolean`<br>
