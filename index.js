@@ -6,7 +6,7 @@ const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
 const imageminGifsicle = require('imagemin-gifsicle');
-const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminJpegtran = require('imagemin-jpegtran');
 const imageminOptipng = require('imagemin-optipng');
 const imageminSvgo = require('imagemin-svgo');
 const plur = require('plur');
@@ -50,7 +50,7 @@ module.exports = (plugins, opts) => {
 
 		const use = plugins || [
 			imageminGifsicle(),
-			imageminMozjpeg(),
+			imageminJpegtran(),
 			imageminOptipng(),
 			imageminSvgo()
 		];
@@ -92,6 +92,6 @@ module.exports = (plugins, opts) => {
 };
 
 module.exports.gifsicle = imageminGifsicle;
-module.exports.mozjpeg = imageminMozjpeg;
+module.exports.jpegtran = imageminJpegtran;
 module.exports.optipng = imageminOptipng;
 module.exports.svgo = imageminSvgo;
