@@ -45,6 +45,7 @@
   "devDependencies": {
     "ava": "*",
     "get-stream": "^2.2.0",
+    "imagemin-pngquant": "^5.0.0",
     "pify": "^2.3.0",
     "xo": "*"
   },
@@ -52,7 +53,6 @@
     "imagemin-gifsicle": "^5.0.1",
     "imagemin-jpegtran": "^5.0.1",
     "imagemin-optipng": "^5.1.0",
-    "imagemin-pngquant": "^5.0.0",
     "imagemin-svgo": "^5.1.0"
   },
   "xo": {

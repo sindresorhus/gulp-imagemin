@@ -2,14 +2,23 @@
 const path = require('path');
 const gutil = require('gulp-util');
 const through = require('through2-concurrent');
+const plur = require('plur');
 const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
-const imageminGifsicle = require('imagemin-gifsicle');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminOptipng = require('imagemin-optipng');
-const imageminSvgo = require('imagemin-svgo');
-const plur = require('plur');
+const defaultPlugins = [];
+try {
+	defaultPlugins.push(require('imagemin-gifsicle')());
+} catch (er) {}
+try {
+	defaultPlugins.push(require('imagemin-jpegtran')());
+} catch (er) {}
+try {
+	defaultPlugins.push(require('imagemin-optipng')());
+} catch (er) {}
+try {
+	defaultPlugins.push(require('imagemin-svgo')());
+} catch (er) {}
 
 module.exports = (plugins, opts) => {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
@@ -48,12 +57,7 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		const use = plugins || [
-			imageminGifsicle(),
-			imageminJpegtran(),
-			imageminOptipng(),
-			imageminSvgo()
-		];
+		const use = plugins || defaultPlugins;
 
 		imagemin.buffer(file.contents, {use})
 			.then(data => {
@@ -90,8 +94,3 @@ module.exports = (plugins, opts) => {
 		cb();
 	});
 };
-
-module.exports.gifsicle = imageminGifsicle;
-module.exports.jpegtran = imageminJpegtran;
-module.exports.optipng = imageminOptipng;
-module.exports.svgo = imageminSvgo;
