@@ -8,16 +8,24 @@ const chalk = require('chalk');
 const imagemin = require('imagemin');
 const defaultPlugins = [];
 try {
-	defaultPlugins.push(require('imagemin-gifsicle')());
+	const imageminGifsicle = require('imagemin-gifsicle');
+	defaultPlugins.push(imageminGifsicle());
+	module.exports.gifsicle = imageminGifsicle;
 } catch (er) {}
 try {
-	defaultPlugins.push(require('imagemin-jpegtran')());
+	const imageminJpegtran = require('imagemin-jpegtran');
+	defaultPlugins.push(imageminJpegtran());
+	module.exports.jpegtran = imageminJpegtran;
 } catch (er) {}
 try {
-	defaultPlugins.push(require('imagemin-optipng')());
+	const imageminOptipng = require('imagemin-optipng');
+	defaultPlugins.push(imageminOptipng());
+	module.exports.optipng = imageminOptipng;
 } catch (er) {}
 try {
-	defaultPlugins.push(require('imagemin-svgo')());
+	const imageminSvgo = require('imagemin-svgo');
+	defaultPlugins.push(imageminSvgo());
+	module.exports.svgo = imageminSvgo;
 } catch (er) {}
 
 module.exports = (plugins, opts) => {
