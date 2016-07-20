@@ -76,7 +76,8 @@ module.exports = (plugins, opts) => {
 				cb(null, file);
 			})
 			.catch(err => {
-				cb(new gutil.PluginError('gulp-imagemin:', err, {fileName: file.path}));
+				// TODO: remove this setImmediate when gulp 4 is targeted
+				setImmediate(cb, new gutil.PluginError('gulp-imagemin', err, {fileName: file.path}));
 			});
 	}, cb => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
