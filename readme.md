@@ -54,6 +54,9 @@ Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemi
 
 #### options
 
+Type: `obj`<br>
+Default: `false`
+
 ##### verbose
 
 Type: `boolean`<br>
