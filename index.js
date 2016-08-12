@@ -9,6 +9,7 @@ const imageminGifsicle = require('imagemin-gifsicle');
 const imageminJpegtran = require('imagemin-jpegtran');
 const imageminOptipng = require('imagemin-optipng');
 const imageminSvgo = require('imagemin-svgo');
+const imageminWebp = require('imagemin-webp');
 const plur = require('plur');
 
 module.exports = (plugins, opts) => {
@@ -22,7 +23,7 @@ module.exports = (plugins, opts) => {
 		verbose: process.argv.indexOf('--verbose') !== -1
 	}, opts);
 
-	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
+	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'];
 
 	let totalBytes = 0;
 	let totalSavedBytes = 0;
@@ -52,7 +53,8 @@ module.exports = (plugins, opts) => {
 			imageminGifsicle(),
 			imageminJpegtran(),
 			imageminOptipng(),
-			imageminSvgo()
+			imageminSvgo(),
+			imageminWebp()
 		];
 
 		imagemin.buffer(file.contents, {use})
@@ -96,3 +98,4 @@ module.exports.gifsicle = imageminGifsicle;
 module.exports.jpegtran = imageminJpegtran;
 module.exports.optipng = imageminOptipng;
 module.exports.svgo = imageminSvgo;
+module.exports.webp = imageminWebp;
