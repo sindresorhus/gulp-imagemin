@@ -1,6 +1,6 @@
 # gulp-imagemin [![Build Status](https://travis-ci.org/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-imagemin)
 
-> Minify PNG, JPEG, GIF and SVG images with [imagemin](https://github.com/imagemin/imagemin)
+> Minify PNG, JPEG, GIF, SVG and WEBP images with [imagemin](https://github.com/imagemin/imagemin)
 
 *Issues with the output should be reported on the imagemin [issue tracker](https://github.com/imagemin/imagemin/issues).*
 
@@ -38,6 +38,7 @@ Comes bundled with the following **lossless** optimizers:
 - [jpegtran](https://github.com/imagemin/imagemin-jpegtran) — *Compress JPEG images*
 - [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
 - [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
+- [webp](https://github.com/imagemin/imagemin-webp) - *Compress WEBP images*
 
 These are bundled for convenience and most will not need anything else.
 
@@ -48,7 +49,7 @@ Unsupported files are ignored.
 #### plugins
 
 Type: `array`<br>
-Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemin.svgo()]`
+Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemin.svgo(), imagemin.webp()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the default plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 
