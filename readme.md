@@ -49,12 +49,14 @@ Unsupported files are ignored.
 
 #### plugins
 
-Type: `array`<br>
+Type: `Array`<br>
 Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemin.svgo()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the default plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 
 #### options
+
+Type: `Object`
 
 ##### verbose
 
