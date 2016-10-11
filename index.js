@@ -57,18 +57,18 @@ module.exports = (plugins, opts) => {
 
 		imagemin.buffer(file.contents, {use})
 			.then(data => {
-				const originalSize = file.contents.length;
-				const optimizedSize = data.length;
-				const saved = originalSize - optimizedSize;
-				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
-				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
-				const msg = saved > 0 ? savedMsg : 'already optimized';
-
-				totalBytes += originalSize;
-				totalSavedBytes += saved;
-				totalFiles++;
-
 				if (opts.verbose) {
+					const originalSize = file.contents.length;
+					const optimizedSize = data.length;
+					const saved = originalSize - optimizedSize;
+					const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
+					const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
+					const msg = saved > 0 ? savedMsg : 'already optimized';
+
+					totalBytes += originalSize;
+					totalSavedBytes += saved;
+					totalFiles++;
+
 					gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
@@ -80,14 +80,16 @@ module.exports = (plugins, opts) => {
 				setImmediate(cb, new gutil.PluginError('gulp-imagemin', err, {fileName: file.path}));
 			});
 	}, cb => {
-		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
+		if (opts.verbose) {
+			const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+			let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
 
-		if (totalFiles > 0) {
-			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
+			if (totalFiles > 0) {
+				msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
+			}
+
+			gutil.log('gulp-imagemin:', msg);
 		}
-
-		gutil.log('gulp-imagemin:', msg);
 		cb();
 	});
 };
