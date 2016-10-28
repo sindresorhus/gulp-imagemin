@@ -7,20 +7,18 @@ const chalk = require('chalk');
 const imagemin = require('imagemin');
 const plur = require('plur');
 
-const defaultPluginList = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
+const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
 const loadPlugin = plugin => {
 	try {
-		/* eslint-disable import/no-dynamic-require */
-		return require(`imagemin-${plugin}`)();
-		/* eslint-enable import/no-dynamic-require */
+		return require(`imagemin-${plugin}`)(); // eslint-disable-line import/no-dynamic-require
 	} catch (err) {
 		gutil.log(`gulp-imagemin: Couldn't load default plugin "${plugin}"`);
 	}
 };
 
-const defaultPlugins = () => {
-	return defaultPluginList.reduce((plugins, plugin) => {
+const getDefaultPlugins = () =>
+	defaultPlugins.reduce((plugins, plugin) => {
 		const instance = loadPlugin(plugin);
 
 		if (!instance) {
@@ -29,7 +27,6 @@ const defaultPlugins = () => {
 
 		return plugins.concat(instance);
 	}, []);
-};
 
 module.exports = (plugins, opts) => {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
@@ -68,7 +65,7 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		const use = plugins || defaultPlugins();
+		const use = plugins || getDefaultPlugins();
 
 		imagemin.buffer(file.contents, {use})
 			.then(data => {
