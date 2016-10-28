@@ -5,11 +5,31 @@ const through = require('through2-concurrent');
 const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
-const imageminGifsicle = require('imagemin-gifsicle');
-const imageminJpegtran = require('imagemin-jpegtran');
-const imageminOptipng = require('imagemin-optipng');
-const imageminSvgo = require('imagemin-svgo');
 const plur = require('plur');
+
+const defaultPluginList = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
+
+const loadPlugin = plugin => {
+	try {
+		/* eslint-disable import/no-dynamic-require */
+		return require(`imagemin-${plugin}`)();
+		/* eslint-enable import/no-dynamic-require */
+	} catch (err) {
+		gutil.log(`gulp-imagemin: Couldn't load default plugin "${plugin}"`);
+	}
+};
+
+const defaultPlugins = () => {
+	return defaultPluginList.reduce((plugins, plugin) => {
+		const instance = loadPlugin(plugin);
+
+		if (!instance) {
+			return plugins;
+		}
+
+		return plugins.concat(instance);
+	}, []);
+};
 
 module.exports = (plugins, opts) => {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
@@ -48,12 +68,7 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		const use = plugins || [
-			imageminGifsicle(),
-			imageminJpegtran(),
-			imageminOptipng(),
-			imageminSvgo()
-		];
+		const use = plugins || defaultPlugins();
 
 		imagemin.buffer(file.contents, {use})
 			.then(data => {
@@ -92,7 +107,7 @@ module.exports = (plugins, opts) => {
 	});
 };
 
-module.exports.gifsicle = imageminGifsicle;
-module.exports.jpegtran = imageminJpegtran;
-module.exports.optipng = imageminOptipng;
-module.exports.svgo = imageminSvgo;
+module.exports.gifsicle = () => loadPlugin('gifsicle');
+module.exports.jpegtran = () => loadPlugin('jpegtran');
+module.exports.optipng = () => loadPlugin('optipng');
+module.exports.svgo = () => loadPlugin('svgo');
