@@ -9,13 +9,19 @@ const plur = require('plur');
 
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
-const loadPlugin = plugin => {
+const loadPlugin = (plugin, args) => {
 	try {
-		return require(`imagemin-${plugin}`)(); // eslint-disable-line import/no-dynamic-require
+		return require(`imagemin-${plugin}`).apply(null, args); // eslint-disable-line import/no-dynamic-require
 	} catch (err) {
 		gutil.log(`gulp-imagemin: Couldn't load default plugin "${plugin}"`);
 	}
 };
+
+const exposePlugin = plugin =>
+	function () {
+		const args = [].slice.call(arguments);
+		return loadPlugin(plugin, args);
+	};
 
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
@@ -104,7 +110,7 @@ module.exports = (plugins, opts) => {
 	});
 };
 
-module.exports.gifsicle = () => loadPlugin('gifsicle');
-module.exports.jpegtran = () => loadPlugin('jpegtran');
-module.exports.optipng = () => loadPlugin('optipng');
-module.exports.svgo = () => loadPlugin('svgo');
+module.exports.gifsicle = exposePlugin('gifsicle');
+module.exports.jpegtran = exposePlugin('jpegtran');
+module.exports.optipng = exposePlugin('optipng');
+module.exports.svgo = exposePlugin('svgo');
