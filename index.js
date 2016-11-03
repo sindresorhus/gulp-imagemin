@@ -17,11 +17,7 @@ const loadPlugin = (plugin, args) => {
 	}
 };
 
-const exposePlugin = plugin =>
-	function () {
-		const args = [].slice.call(arguments);
-		return loadPlugin(plugin, args);
-	};
+const exposePlugin = plugin => (...args) => loadPlugin(plugin, [].slice.call(args));
 
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
