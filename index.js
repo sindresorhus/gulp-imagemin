@@ -69,7 +69,8 @@ module.exports = (plugins, opts) => {
 		if (path.extname(file.path) === "") {
 			// File has no extension -- fall back to file type detection
 			var fileBuffer = fs.readFileSync(file.path);
-			if (validMimes.indexOf(fileType(fileBuffer).mime) === -1) {
+			var type = fileType(fileBuffer);
+			if (type && validMimes.indexOf(type.mime) === -1) {
 				// file-type does not (currently) detect SVG files
 				// So we'll do one more check:
 				if (!isSvg(fileBuffer)) {
