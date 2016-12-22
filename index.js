@@ -6,6 +6,7 @@ const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
 const plur = require('plur');
+const fileType = require('file-type');
 
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
@@ -45,7 +46,7 @@ module.exports = (plugins, opts) => {
 		verbose: process.argv.indexOf('--verbose') !== -1
 	}, opts);
 
-	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
+	const validMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/svg+xml'];
 
 	let totalBytes = 0;
 	let totalSavedBytes = 0;
@@ -62,7 +63,7 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
+		if (validMimes.indexOf(fileType(fs.readFileSync(file.path)).mime) === -1) {
 			if (opts.verbose) {
 				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}

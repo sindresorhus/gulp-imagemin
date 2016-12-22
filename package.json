@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "file-type": "^4.0.0",
     "gulp-util": "^3.0.0",
     "imagemin": "^5.0.0",
     "plur": "^2.0.0",
