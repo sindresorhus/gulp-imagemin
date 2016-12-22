@@ -6,7 +6,9 @@ const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
 const plur = require('plur');
+const fs = require('fs');
 const fileType = require('file-type');
+const isSvg = require('is-svg');
 
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
@@ -46,6 +48,7 @@ module.exports = (plugins, opts) => {
 		verbose: process.argv.indexOf('--verbose') !== -1
 	}, opts);
 
+	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
 	const validMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/svg+xml'];
 
 	let totalBytes = 0;
@@ -63,7 +66,22 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		if (validMimes.indexOf(fileType(fs.readFileSync(file.path)).mime) === -1) {
+		if (path.extname(file.path) === "") {
+			// File has no extension -- fall back to file type detection
+			var fileBuffer = fs.readFileSync(file.path);
+			if (validMimes.indexOf(fileType(fileBuffer).mime) === -1) {
+				// file-type does not (currently) detect SVG files
+				// So we'll do one more check:
+				if (!isSvg(fileBuffer)) {
+					if (opts.verbose) {
+						gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
+					}
+
+					cb(null, file);
+					return;
+				}
+			}			
+		} else if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (opts.verbose) {
 				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}

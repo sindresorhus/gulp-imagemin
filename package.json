@@ -39,6 +39,7 @@
     "file-type": "^4.0.0",
     "gulp-util": "^3.0.0",
     "imagemin": "^5.0.0",
+    "is-svg": "^2.1.0",
     "plur": "^2.0.0",
     "pretty-bytes": "^4.0.2",
     "through2-concurrent": "^1.1.0"
