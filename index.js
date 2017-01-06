@@ -72,7 +72,7 @@ module.exports = (plugins, opts) => {
 			if (type && validMimes.includes(type.mime)) {
 				// file-type does not detect SVG files
 				// So we'll do one more check:
-				if (!isSvg(fileBuffer)) {
+				if (!isSvg(file.contents)) {
 					if (opts.verbose) {
 						gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 					}
