@@ -49,7 +49,7 @@ module.exports = (plugins, opts) => {
 	}, opts);
 
 	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
-	const validMimes = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+	const validMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
 
 	let totalBytes = 0;
 	let totalSavedBytes = 0;
@@ -66,12 +66,11 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
+		// If file has no extension, fall back to file type detection
 		if (path.extname(file.path) === '') {
-			// File has no extension -- fall back to file type detection
-			const fileBuffer = fs.readFileSync(file.path);
-			const type = fileType(fileBuffer);
-			if (type && validMimes.indexOf(type.mime) === -1) {
-				// file-type does not (currently) detect SVG files
+			const type = fileType(file.contents);
+			if (type && validMimes.includes(type.mime)) {
+				// file-type does not detect SVG files
 				// So we'll do one more check:
 				if (!isSvg(fileBuffer)) {
 					if (opts.verbose) {
@@ -82,7 +81,7 @@ module.exports = (plugins, opts) => {
 					return;
 				}
 			}
-		} else if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
+		} else if (validExts.includes(path.extname(file.path).toLowerCase())) {
 			if (opts.verbose) {
 				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
