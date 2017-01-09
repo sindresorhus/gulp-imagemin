@@ -69,7 +69,7 @@ module.exports = (plugins, opts) => {
 		// If file has no extension, fall back to file type detection
 		if (path.extname(file.path) === '') {
 			const type = fileType(file.contents);
-			if (type && validMimes.includes(type.mime)) {
+			if (type && validMimes.indexOf(type.mime) === -1) {
 				// file-type does not detect SVG files
 				// So we'll do one more check:
 				if (!isSvg(file.contents)) {
@@ -81,7 +81,7 @@ module.exports = (plugins, opts) => {
 					return;
 				}
 			}
-		} else if (validExts.includes(path.extname(file.path).toLowerCase())) {
+		} else if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (opts.verbose) {
 				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
