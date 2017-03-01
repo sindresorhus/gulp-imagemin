@@ -52,8 +52,8 @@ module.exports = (plugins, opts) => {
 	let totalFiles = 0;
 
 	return through.obj({
-            maxConcurrency: opts.concurrent ? opts.concurrent : null
-        }, (file, enc, cb) => {
+		maxConcurrency: opts.concurrent ? opts.concurrent : null
+	}, (file, enc, cb) => {
 		if (file.isNull()) {
 			cb(null, file);
 			return;
