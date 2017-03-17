@@ -33,22 +33,17 @@ gulp.task('default', () =>
 );
 ```
 
-### Custom Options
+### Custom Plugin Options
 
 ```js
-const gulp = require('gulp');
-const imagemin = require('gulp-imagemin');
-
-gulp.task('default', () => {
-    return gulp.src('src/images/*')
+...
 	.pipe(imagemin([
 		imagemin.gifsicle({interlaced: true}),
 		imagemin.jpegtran({progressive: true}),
 		imagemin.optipng({optimizationLevel: 5}),
 		imagemin.svgo({plugins: [{removeViewBox: true}]})
 	]))
-	.pipe(gulp.dest('dist/images'));
-});
+...
 ```
 
 Note that you may come across an older, implicit syntax. In versions < 3, the same was written like this:
@@ -63,6 +58,16 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 	}))
 ...	
 ```
+
+### Custom Plugin Options and Custom `gulp-imagemin` options
+```js
+...
+	.pipe(imagemin([
+		imagemin.svgo({plugins: [{removeViewBox: true}]})
+	],{verbose: true}))
+...
+```
+
 
 ## API
 
