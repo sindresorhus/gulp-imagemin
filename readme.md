@@ -33,7 +33,7 @@ gulp.task('default', () =>
 );
 ```
 
-### Custom Plugin Options
+### Custom plugin options
 
 ```js
 ...
@@ -59,12 +59,15 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 ...	
 ```
 
-### Custom Plugin Options and Custom `gulp-imagemin` options
+### Custom plugin options and custom `gulp-imagemin` options
+
 ```js
 ...
 	.pipe(imagemin([
 		imagemin.svgo({plugins: [{removeViewBox: true}]})
-	],{verbose: true}))
+	], {
+		verbose: true
+	}))
 ...
 ```
 
@@ -95,17 +98,18 @@ Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemi
 
 Type: `Object`
 
-The only supported `imagemin` option is **verbose**
+##### verbose
 	
 Type: `boolean`<br>
 Default: `false`
 
-Turning `verbose` on will log info on every file passed to `imagemin`:
+Enabling this will log info on every image passed to `gulp-imagemin`:
 
-```bash
+```
 gulp-imagemin: ✔ image1.png (already optimized)
 gulp-imagemin: ✔ image2.png (saved 91 B - 0.4%)
 ```
+
 
 ## License
 
