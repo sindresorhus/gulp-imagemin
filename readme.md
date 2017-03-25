@@ -36,39 +36,39 @@ gulp.task('default', () =>
 ### Custom plugin options
 
 ```js
-...
-	.pipe(imagemin([
-		imagemin.gifsicle({interlaced: true}),
-		imagemin.jpegtran({progressive: true}),
-		imagemin.optipng({optimizationLevel: 5}),
-		imagemin.svgo({plugins: [{removeViewBox: true}]})
-	]))
-...
+…
+.pipe(imagemin([
+	imagemin.gifsicle({interlaced: true}),
+	imagemin.jpegtran({progressive: true}),
+	imagemin.optipng({optimizationLevel: 5}),
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+]))
+…
 ```
 
 Note that you may come across an older, implicit syntax. In versions < 3, the same was written like this:
 
 ```js
-...
-	.pipe(imagemin({
-	    interlaced: true,
-	    progressive: true,
-	    optimizationLevel: 5,
-	    svgoPlugins: [{removeViewBox: true}]
-	}))
-...	
+…
+.pipe(imagemin({
+	interlaced: true,
+	progressive: true,
+	optimizationLevel: 5,
+	svgoPlugins: [{removeViewBox: true}]
+}))
+…
 ```
 
 ### Custom plugin options and custom `gulp-imagemin` options
 
 ```js
-...
-	.pipe(imagemin([
-		imagemin.svgo({plugins: [{removeViewBox: true}]})
-	], {
-		verbose: true
-	}))
-...
+…
+.pipe(imagemin([
+	imagemin.svgo({plugins: [{removeViewBox: true}]})
+], {
+	verbose: true
+}))
+…
 ```
 
 
@@ -81,7 +81,7 @@ Comes bundled with the following **lossless** optimizers:
 - [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
 - [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
 
-These are bundled for convenience and most will not need anything else.
+These are bundled for convenience and most users will not need anything else.
 
 ### imagemin([plugins], [options])
 
@@ -99,7 +99,7 @@ Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemi
 Type: `Object`
 
 ##### verbose
-	
+
 Type: `boolean`<br>
 Default: `false`
 
