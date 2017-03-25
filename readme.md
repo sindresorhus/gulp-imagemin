@@ -20,6 +20,8 @@ $ npm install --save-dev gulp-imagemin
 
 ## Usage
 
+### Basic
+
 ```js
 const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
@@ -29,6 +31,44 @@ gulp.task('default', () =>
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist/images'))
 );
+```
+
+### Custom plugin options
+
+```js
+...
+	.pipe(imagemin([
+		imagemin.gifsicle({interlaced: true}),
+		imagemin.jpegtran({progressive: true}),
+		imagemin.optipng({optimizationLevel: 5}),
+		imagemin.svgo({plugins: [{removeViewBox: true}]})
+	]))
+...
+```
+
+Note that you may come across an older, implicit syntax. In versions < 3, the same was written like this:
+
+```js
+...
+	.pipe(imagemin({
+	    interlaced: true,
+	    progressive: true,
+	    optimizationLevel: 5,
+	    svgoPlugins: [{removeViewBox: true}]
+	}))
+...	
+```
+
+### Custom plugin options and custom `gulp-imagemin` options
+
+```js
+...
+	.pipe(imagemin([
+		imagemin.svgo({plugins: [{removeViewBox: true}]})
+	], {
+		verbose: true
+	}))
+...
 ```
 
 
@@ -59,11 +99,16 @@ Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemi
 Type: `Object`
 
 ##### verbose
-
+	
 Type: `boolean`<br>
 Default: `false`
 
-Output more detailed information.
+Enabling this will log info on every image passed to `gulp-imagemin`:
+
+```
+gulp-imagemin: ✔ image1.png (already optimized)
+gulp-imagemin: ✔ image2.png (saved 91 B - 0.4%)
+```
 
 
 ## License
