@@ -51,7 +51,9 @@ module.exports = (plugins, opts) => {
 	let totalSavedBytes = 0;
 	let totalFiles = 0;
 
-	return through.obj((file, enc, cb) => {
+	return through.obj({
+		maxConcurrency: 8
+	}, (file, enc, cb) => {
 		if (file.isNull()) {
 			cb(null, file);
 			return;
