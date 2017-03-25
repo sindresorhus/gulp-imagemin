@@ -93,7 +93,7 @@ module.exports = (plugins, opts) => {
 				}
 
 				file.contents = data;
-				cb(null, file);
+				cb(null, file); // eslint-disable-line promise/no-callback-in-promise
 			})
 			.catch(err => {
 				// TODO: remove this setImmediate when gulp 4 is targeted
