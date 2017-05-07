@@ -11,7 +11,7 @@ const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
 const loadPlugin = (plugin, args) => {
 	try {
-		return require(`imagemin-${plugin}`).apply(null, args); // eslint-disable-line import/no-dynamic-require
+		return require(`imagemin-${plugin}`).apply(null, args);
 	} catch (err) {
 		gutil.log(`gulp-imagemin: Couldn't load default plugin "${plugin}"`);
 	}
@@ -93,7 +93,7 @@ module.exports = (plugins, opts) => {
 				}
 
 				file.contents = data;
-				cb(null, file); // eslint-disable-line promise/no-callback-in-promise
+				cb(null, file);
 			})
 			.catch(err => {
 				// TODO: remove this setImmediate when gulp 4 is targeted
