@@ -84,9 +84,11 @@ module.exports = (plugins, opts) => {
 				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
 				const msg = saved > 0 ? savedMsg : 'already optimized';
 
-				totalBytes += originalSize;
-				totalSavedBytes += saved;
-				totalFiles++;
+				if (saved > 0) {
+					totalBytes += originalSize;
+					totalSavedBytes += saved;
+					totalFiles++;
+				}
 
 				if (opts.verbose) {
 					gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
