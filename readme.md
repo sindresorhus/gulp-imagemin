@@ -14,7 +14,7 @@
 ## Install
 
 ```
-$ npm install --save-dev gulp-imagemin
+$ npm install --save-dev gulp-imagemin imagemin-pngquant
 ```
 
 
