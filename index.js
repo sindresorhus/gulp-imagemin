@@ -61,7 +61,7 @@ module.exports = (plugins, opts) => {
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError('${PLUGIN_NAME}', 'Streaming not supported'));
+			cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
 			return;
 		}
 
@@ -92,7 +92,7 @@ module.exports = (plugins, opts) => {
 				}
 
 				if (opts.verbose) {
-					gutil.log(PLUGIN_NAME, chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
+					gutil.log(PLUGIN_NAME + ':', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
 				file.contents = data;
@@ -110,7 +110,7 @@ module.exports = (plugins, opts) => {
 			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
 
-		gutil.log(PLUGIN_NAME, msg);
+		gutil.log(PLUGIN_NAME + ':', msg);
 		cb();
 	});
 };
