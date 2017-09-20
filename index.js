@@ -17,12 +17,6 @@ const loadPlugin = (plugin, args) => {
 	}
 };
 
-const exposePlugin = plugin =>
-	function () {
-		const args = [].slice.call(arguments);
-		return loadPlugin(plugin, args);
-	};
-
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
 		const instance = loadPlugin(plugin);
@@ -113,8 +107,3 @@ module.exports = (plugins, opts) => {
 		cb();
 	});
 };
-
-module.exports.gifsicle = exposePlugin('gifsicle');
-module.exports.jpegtran = exposePlugin('jpegtran');
-module.exports.optipng = exposePlugin('optipng');
-module.exports.svgo = exposePlugin('svgo');
