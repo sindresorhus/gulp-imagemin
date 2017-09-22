@@ -5,7 +5,7 @@ import imageminPngquant from 'imagemin-pngquant';
 import pify from 'pify';
 import getStream from 'get-stream';
 import test from 'ava';
-import m from './';
+import m from '.';
 
 const fsP = pify(fs);
 

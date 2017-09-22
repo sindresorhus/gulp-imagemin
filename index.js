@@ -6,8 +6,8 @@ const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
 const plur = require('plur');
-const PLUGIN_NAME = 'gulp-imagemin';
 
+const PLUGIN_NAME = 'gulp-imagemin';
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
 const loadPlugin = (plugin, args) => {

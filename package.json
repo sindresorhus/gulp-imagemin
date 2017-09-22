@@ -1,61 +1,58 @@
 {
-  "name": "gulp-imagemin",
-  "version": "3.3.0",
-  "description": "Minify PNG, JPEG, GIF and SVG images",
-  "license": "MIT",
-  "repository": "sindresorhus/gulp-imagemin",
-  "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "sindresorhus.com"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "gulpplugin",
-    "imagemin",
-    "image",
-    "img",
-    "picture",
-    "photo",
-    "minify",
-    "minifier",
-    "compress",
-    "png",
-    "jpg",
-    "jpeg",
-    "gif",
-    "svg"
-  ],
-  "dependencies": {
-    "chalk": "^1.0.0",
-    "gulp-util": "^3.0.0",
-    "imagemin": "^5.0.0",
-    "plur": "^2.0.0",
-    "pretty-bytes": "^4.0.2",
-    "through2-concurrent": "^1.1.0"
-  },
-  "devDependencies": {
-    "ava": "*",
-    "get-stream": "^3.0.0",
-    "imagemin-pngquant": "^5.0.0",
-    "pify": "^3.0.0",
-    "xo": "*"
-  },
-  "optionalDependencies": {
-    "imagemin-gifsicle": "^5.0.0",
-    "imagemin-jpegtran": "^5.0.0",
-    "imagemin-optipng": "^5.1.0",
-    "imagemin-svgo": "^5.1.0"
-  },
-  "xo": {
-    "esnext": true
-  }
+	"name": "gulp-imagemin",
+	"version": "3.3.0",
+	"description": "Minify PNG, JPEG, GIF and SVG images",
+	"license": "MIT",
+	"repository": "sindresorhus/gulp-imagemin",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"gulpplugin",
+		"imagemin",
+		"image",
+		"img",
+		"picture",
+		"photo",
+		"minify",
+		"minifier",
+		"compress",
+		"png",
+		"jpg",
+		"jpeg",
+		"gif",
+		"svg"
+	],
+	"dependencies": {
+		"chalk": "^2.1.0",
+		"gulp-util": "^3.0.0",
+		"imagemin": "^5.0.0",
+		"plur": "^2.0.0",
+		"pretty-bytes": "^4.0.2",
+		"through2-concurrent": "^1.1.0"
+	},
+	"devDependencies": {
+		"ava": "*",
+		"get-stream": "^3.0.0",
+		"imagemin-pngquant": "^5.0.0",
+		"pify": "^3.0.0",
+		"xo": "*"
+	},
+	"optionalDependencies": {
+		"imagemin-gifsicle": "^5.0.0",
+		"imagemin-jpegtran": "^5.0.0",
+		"imagemin-optipng": "^5.1.0",
+		"imagemin-svgo": "^5.1.0"
+	}
 }
