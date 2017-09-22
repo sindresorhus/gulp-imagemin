@@ -6,6 +6,7 @@ const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
 const imagemin = require('imagemin');
 const plur = require('plur');
+const PLUGIN_NAME = 'gulp-imagemin';
 
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
@@ -13,7 +14,7 @@ const loadPlugin = (plugin, args) => {
 	try {
 		return require(`imagemin-${plugin}`).apply(null, args);
 	} catch (err) {
-		gutil.log(`gulp-imagemin: Couldn't load default plugin "${plugin}"`);
+		gutil.log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
 	}
 };
 
@@ -60,13 +61,13 @@ module.exports = (plugins, opts) => {
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError('gulp-imagemin', 'Streaming not supported'));
+			cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
 			return;
 		}
 
 		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (opts.verbose) {
-				gutil.log(`gulp-imagemin: Skipping unsupported image ${chalk.blue(file.relative)}`);
+				gutil.log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
 			cb(null, file);
@@ -91,7 +92,7 @@ module.exports = (plugins, opts) => {
 				}
 
 				if (opts.verbose) {
-					gutil.log('gulp-imagemin:', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
+					gutil.log(PLUGIN_NAME + ':', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
 				file.contents = data;
@@ -99,7 +100,7 @@ module.exports = (plugins, opts) => {
 			})
 			.catch(err => {
 				// TODO: remove this setImmediate when gulp 4 is targeted
-				setImmediate(cb, new gutil.PluginError('gulp-imagemin', err, {fileName: file.path}));
+				setImmediate(cb, new gutil.PluginError(PLUGIN_NAME, err, {fileName: file.path}));
 			});
 	}, cb => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
@@ -109,7 +110,7 @@ module.exports = (plugins, opts) => {
 			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
 
-		gutil.log('gulp-imagemin:', msg);
+		gutil.log(PLUGIN_NAME + ':', msg);
 		cb();
 	});
 };
