@@ -77,8 +77,8 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 ```
 
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/gulp-imagemin'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/gulp-imagemin.svg' />
+<a target="_blank" rel="nofollow" href="https://app.codesponsor.io/link/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/gulp-imagemin">
+	<img alt="Sponsor" width="888" height="68" src="https://app.codesponsor.io/embed/tmkVF4Qm7RNE8e9RVwnim6gU/sindresorhus/gulp-imagemin.svg">
 </a>
 
 
