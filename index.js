@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
-const gutil = require('gulp-util');
+const log = require('fancy-log');
+const PluginError = require('plugin-error');
 const through = require('through2-concurrent');
 const prettyBytes = require('pretty-bytes');
 const chalk = require('chalk');
@@ -14,7 +15,7 @@ const loadPlugin = (plugin, args) => {
 	try {
 		return require(`imagemin-${plugin}`).apply(null, args);
 	} catch (err) {
-		gutil.log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
+		log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
 	}
 };
 
@@ -61,13 +62,13 @@ module.exports = (plugins, opts) => {
 		}
 
 		if (file.isStream()) {
-			cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
+			cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
 			return;
 		}
 
 		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
 			if (opts.verbose) {
-				gutil.log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
+				log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
 			cb(null, file);
@@ -92,7 +93,7 @@ module.exports = (plugins, opts) => {
 				}
 
 				if (opts.verbose) {
-					gutil.log(PLUGIN_NAME + ':', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
+					log(PLUGIN_NAME + ':', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
 				file.contents = data;
@@ -100,7 +101,7 @@ module.exports = (plugins, opts) => {
 			})
 			.catch(err => {
 				// TODO: remove this setImmediate when gulp 4 is targeted
-				setImmediate(cb, new gutil.PluginError(PLUGIN_NAME, err, {fileName: file.path}));
+				setImmediate(cb, new PluginError(PLUGIN_NAME, err, {fileName: file.path}));
 			});
 	}, cb => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
@@ -110,7 +111,7 @@ module.exports = (plugins, opts) => {
 			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
 
-		gutil.log(PLUGIN_NAME + ':', msg);
+		log(PLUGIN_NAME + ':', msg);
 		cb();
 	});
 };

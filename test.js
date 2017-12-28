@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import gutil from 'gulp-util';
 import imageminPngquant from 'imagemin-pngquant';
 import pify from 'pify';
+import Vinyl from 'vinyl';
 import getStream from 'get-stream';
 import test from 'ava';
 import m from '.';
@@ -13,7 +13,7 @@ const createFixture = async plugins => {
 	const buf = await fsP.readFile('fixture.png');
 	const stream = m(plugins);
 
-	stream.end(new gutil.File({
+	stream.end(new Vinyl({
 		path: path.join(__dirname, 'fixture.png'),
 		contents: buf
 	}));
@@ -39,7 +39,7 @@ test('use custom plugins', async t => {
 
 test('skip unsupported images', async t => {
 	const stream = m();
-	stream.end(new gutil.File({path: path.join(__dirname, 'fixture.bmp')}));
+	stream.end(new Vinyl({path: path.join(__dirname, 'fixture.bmp')}));
 	const file = await getStream.array(stream);
 
 	t.is(file[0].contents, null);
