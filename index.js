@@ -110,8 +110,9 @@ module.exports = (plugins, opts) => {
 		if (totalFiles > 0) {
 			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
-
-		log(PLUGIN_NAME + ':', msg);
+		if (opts.verbose) {
+			log(PLUGIN_NAME + ':', msg);
+		}
 		cb();
 	});
 };
