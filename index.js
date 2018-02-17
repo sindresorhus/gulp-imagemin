@@ -84,7 +84,7 @@ module.exports = (plugins, opts) => {
 				const saved = originalSize - optimizedSize;
 				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
 				const savedMsg = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
-				const msg = saved > 0 ? savedMsg : 'already optimized';
+				const msg = saved > 0 ? savedMsg : 'No matching plugin found';
 
 				if (saved > 0) {
 					totalBytes += originalSize;
