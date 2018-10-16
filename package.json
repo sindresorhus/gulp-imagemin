@@ -37,8 +37,9 @@
 	"dependencies": {
 		"chalk": "^2.1.0",
 		"fancy-log": "^1.3.2",
-		"plugin-error": "^0.1.2",
+		"gulp": "^4.0.0",
 		"imagemin": "^5.3.1",
+		"plugin-error": "^0.1.2",
 		"plur": "^2.1.2",
 		"pretty-bytes": "^4.0.2",
 		"through2-concurrent": "^1.1.1"
@@ -46,10 +47,10 @@
 	"devDependencies": {
 		"ava": "*",
 		"get-stream": "^3.0.0",
-		"imagemin-pngquant": "^5.0.1",
+		"imagemin-pngquant": "^6.0.0",
 		"pify": "^3.0.0",
-		"xo": "*",
-		"vinyl": "^2.1.0"
+		"vinyl": "^2.1.0",
+		"xo": "*"
 	},
 	"optionalDependencies": {
 		"imagemin-gifsicle": "^5.2.0",
