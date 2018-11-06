@@ -1,4 +1,3 @@
-'use strict';
 const path = require('path');
 const log = require('fancy-log');
 const PluginError = require('plugin-error');
@@ -11,19 +10,15 @@ const plur = require('plur');
 const PLUGIN_NAME = 'gulp-imagemin';
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
-const loadPlugin = (plugin, args) => {
+const loadPlugin = (plugin, ...args) => {
 	try {
-		return require(`imagemin-${plugin}`).apply(null, args);
-	} catch (err) {
+		return require(`imagemin-${plugin}`)(args);
+	} catch (error) {
 		log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
 	}
 };
 
-const exposePlugin = plugin =>
-	function () {
-		const args = [].slice.call(arguments);
-		return loadPlugin(plugin, args);
-	};
+const exposePlugin = (plugin, ...args) => loadPlugin(plugin, args);
 
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
@@ -44,7 +39,7 @@ module.exports = (plugins, opts) => {
 
 	opts = Object.assign({
 		// TODO: remove this when gulp get's a real logger with levels
-		verbose: process.argv.indexOf('--verbose') !== -1
+		verbose: process.argv.includes('--verbose')
 	}, opts);
 
 	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
@@ -66,7 +61,7 @@ module.exports = (plugins, opts) => {
 			return;
 		}
 
-		if (validExts.indexOf(path.extname(file.path).toLowerCase()) === -1) {
+		if (!validExts.includes(path.extname(file.path).toLowerCase())) {
 			if (opts.verbose) {
 				log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
@@ -93,15 +88,15 @@ module.exports = (plugins, opts) => {
 				}
 
 				if (opts.verbose) {
-					log(PLUGIN_NAME + ':', chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
+					log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
 				file.contents = data;
 				cb(null, file);
 			})
-			.catch(err => {
+			.catch(error => {
 				// TODO: remove this setImmediate when gulp 4 is targeted
-				setImmediate(cb, new PluginError(PLUGIN_NAME, err, {fileName: file.path}));
+				setImmediate(cb, new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
 			});
 	}, cb => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
@@ -111,7 +106,7 @@ module.exports = (plugins, opts) => {
 			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
 		}
 
-		log(PLUGIN_NAME + ':', msg);
+		log(`${PLUGIN_NAME}:`, msg);
 		cb();
 	});
 };
