@@ -9,12 +9,12 @@ import m from '.';
 
 const fsP = pify(fs);
 
-const createFixture = async plugins => {
-	const buf = await fsP.readFile('fixture.png');
+const createFixture = async (plugins, file = 'fixture.png') => {
+	const buf = await fsP.readFile(path.join(__dirname, file));
 	const stream = m(plugins);
 
 	stream.end(new Vinyl({
-		path: path.join(__dirname, 'fixture.png'),
+		path: path.join(__dirname, file),
 		contents: buf
 	}));
 
@@ -35,6 +35,21 @@ test('use custom plugins', async t => {
 	const compareFile = await getStream.array(compareStream);
 
 	t.true(file[0].contents.length < compareFile[0].contents.length);
+});
+
+test('use custom svgo settings', async t => {
+	const svgoOpts = {
+		js2svg: {
+			indent: 2,
+			pretty: true
+		}
+	};
+	const {stream} = await createFixture([m.svgo(svgoOpts)], 'fixture-svg-logo.svg');
+	const compareStream = (await createFixture(null, 'fixture-svg-logo.svg')).stream;
+	const file = await getStream.array(stream);
+	const compareFile = await getStream.array(compareStream);
+
+	t.true(file[0].contents.length > compareFile[0].contents.length);
 });
 
 test('skip unsupported images', async t => {
