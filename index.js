@@ -95,8 +95,7 @@ module.exports = (plugins, options) => {
 				cb(null, file);
 			})
 			.catch(error => {
-				// TODO: Remove this setImmediate when Gulp 4 is targeted
-				setImmediate(cb, new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
+				cb(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
 			});
 	}, cb => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;

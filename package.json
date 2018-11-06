@@ -56,5 +56,8 @@
 		"imagemin-jpegtran": "^6.0.0",
 		"imagemin-optipng": "^6.0.0",
 		"imagemin-svgo": "^7.0.0"
+	},
+	"peerDependencies": {
+		"gulp": ">=4"
 	}
 }
