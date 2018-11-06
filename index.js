@@ -18,10 +18,7 @@ const loadPlugin = (plugin, ...args) => {
 	}
 };
 
-const exposePlugin = plugin =>
-	function (...args) {
-		return loadPlugin(plugin, args);
-	};
+const exposePlugin = plugin => (...args) => loadPlugin(plugin, args);
 
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
