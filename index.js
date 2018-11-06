@@ -10,7 +10,7 @@ const plur = require('plur');
 const PLUGIN_NAME = 'gulp-imagemin';
 const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
-const loadPlugin = (plugin, ...args) => {
+const loadPlugin = (plugin, args) => {
 	try {
 		return require(`imagemin-${plugin}`)(args);
 	} catch (error) {
@@ -18,7 +18,7 @@ const loadPlugin = (plugin, ...args) => {
 	}
 };
 
-const exposePlugin = plugin => (...args) => loadPlugin(plugin, args);
+const exposePlugin = plugin => (...args) => loadPlugin(plugin, ...args);
 
 const getDefaultPlugins = () =>
 	defaultPlugins.reduce((plugins, plugin) => {
