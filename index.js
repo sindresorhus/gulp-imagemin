@@ -12,7 +12,7 @@ const defaultPlugins = ['gifsicle', 'jpegtran', 'optipng', 'svgo'];
 
 const loadPlugin = (plugin, ...args) => {
 	try {
-		return require(`imagemin-${plugin}`)(args);
+		return require(`imagemin-${plugin}`)(...args);
 	} catch (error) {
 		log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
 	}
