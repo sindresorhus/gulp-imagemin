@@ -1,8 +1,8 @@
-# gulp-imagemin [![Build Status](https://travis-ci.org/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-imagemin) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
+# gulp-imagemin [![Build Status](https://travis-ci.com/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.com/sindresorhus/gulp-imagemin) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 
-> Minify PNG, JPEG, GIF and SVG images with [imagemin](https://github.com/imagemin/imagemin)
+> Minify PNG, JPEG, GIF and SVG images with [`imagemin`](https://github.com/imagemin/imagemin)
 
-*Issues with the output should be reported on the imagemin [issue tracker](https://github.com/imagemin/imagemin/issues).*
+*Issues with the output should be reported on the [`imagemin` issue tracker](https://github.com/imagemin/imagemin/issues).*
 
 ---
 
@@ -36,7 +36,7 @@ gulp.task('default', () =>
 ### Custom plugin options
 
 ```js
-…
+// …
 .pipe(imagemin([
 	imagemin.gifsicle({interlaced: true}),
 	imagemin.jpegtran({progressive: true}),
@@ -48,32 +48,42 @@ gulp.task('default', () =>
 		]
 	})
 ]))
-…
+// …
 ```
 
 Note that you may come across an older, implicit syntax. In versions < 3, the same was written like this:
 
 ```js
-…
+// …
 .pipe(imagemin({
 	interlaced: true,
 	progressive: true,
 	optimizationLevel: 5,
-	svgoPlugins: [{removeViewBox: true}]
+	svgoPlugins: [
+		{
+			removeViewBox: true
+		}
+	]
 }))
-…
+// …
 ```
 
 ### Custom plugin options and custom `gulp-imagemin` options
 
 ```js
-…
+// …
 .pipe(imagemin([
-	imagemin.svgo({plugins: [{removeViewBox: true}]})
+	imagemin.svgo({
+		plugins: [
+			{
+				removeViewBox: true
+			}
+		]
+	})
 ], {
 	verbose: true
 }))
-…
+// …
 ```
 
 

@@ -31,16 +31,16 @@ const getDefaultPlugins = () =>
 		return plugins.concat(instance);
 	}, []);
 
-module.exports = (plugins, opts) => {
+module.exports = (plugins, options) => {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
-		opts = plugins;
+		options = plugins;
 		plugins = null;
 	}
 
-	opts = Object.assign({
-		// TODO: remove this when gulp get's a real logger with levels
+	options = Object.assign({
+		// TODO: Remove this when Gulp gets a real logger with levels
 		verbose: process.argv.includes('--verbose')
-	}, opts);
+	}, options);
 
 	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
 
@@ -62,7 +62,7 @@ module.exports = (plugins, opts) => {
 		}
 
 		if (!validExts.includes(path.extname(file.path).toLowerCase())) {
-			if (opts.verbose) {
+			if (options.verbose) {
 				log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
@@ -87,7 +87,7 @@ module.exports = (plugins, opts) => {
 					totalFiles++;
 				}
 
-				if (opts.verbose) {
+				if (options.verbose) {
 					log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${msg})`));
 				}
 
@@ -95,7 +95,7 @@ module.exports = (plugins, opts) => {
 				cb(null, file);
 			})
 			.catch(error => {
-				// TODO: remove this setImmediate when gulp 4 is targeted
+				// TODO: Remove this setImmediate when Gulp 4 is targeted
 				setImmediate(cb, new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
 			});
 	}, cb => {
