@@ -98,14 +98,16 @@ module.exports = (plugins, options) => {
 				cb(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
 			});
 	}, cb => {
-		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-		let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
+		if (options.verbose) {
+			const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+			let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
 
-		if (totalFiles > 0) {
-			msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
+			if (totalFiles > 0) {
+				msg += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
+			}
+
+			log(`${PLUGIN_NAME}:`, msg);
 		}
-
-		log(`${PLUGIN_NAME}:`, msg);
 		cb();
 	});
 };
