@@ -37,12 +37,13 @@ module.exports = (plugins, options) => {
 		plugins = null;
 	}
 
-	options = Object.assign({
+	options = {
 		// TODO: Remove this when Gulp gets a real logger with levels
-		verbose: process.argv.includes('--verbose')
-	}, options);
+		verbose: process.argv.includes('--verbose'),
+		...options
+	};
 
-	const validExts = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
+	const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg'];
 
 	let totalBytes = 0;
 	let totalSavedBytes = 0;
@@ -50,30 +51,31 @@ module.exports = (plugins, options) => {
 
 	return through.obj({
 		maxConcurrency: 8
-	}, (file, enc, cb) => {
+	}, (file, encoding, callback) => {
 		if (file.isNull()) {
-			cb(null, file);
+			callback(null, file);
 			return;
 		}
 
 		if (file.isStream()) {
-			cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+			callback(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
 			return;
 		}
 
-		if (!validExts.includes(path.extname(file.path).toLowerCase())) {
+		if (!validExtensions.includes(path.extname(file.path).toLowerCase())) {
 			if (options.verbose) {
 				log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
-			cb(null, file);
+			callback(null, file);
 			return;
 		}
 
 		const use = plugins || getDefaultPlugins();
 
-		imagemin.buffer(file.contents, {use})
-			.then(data => {
+		(async () => {
+			try {
+				const data = await imagemin.buffer(file.contents, {use});
 				const originalSize = file.contents.length;
 				const optimizedSize = data.length;
 				const saved = originalSize - optimizedSize;
@@ -92,12 +94,12 @@ module.exports = (plugins, options) => {
 				}
 
 				file.contents = data;
-				cb(null, file);
-			})
-			.catch(error => {
-				cb(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
-			});
-	}, cb => {
+				callback(null, file);
+			} catch (error) {
+				callback(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
+			}
+		})();
+	}, callback => {
 		const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
 		let msg = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
 
@@ -106,7 +108,7 @@ module.exports = (plugins, options) => {
 		}
 
 		log(`${PLUGIN_NAME}:`, msg);
-		cb();
+		callback();
 	});
 };
 

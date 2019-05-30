@@ -4,12 +4,6 @@
 
 *Issues with the output should be reported on the [`imagemin` issue tracker](https://github.com/imagemin/imagemin/issues).*
 
----
-
-<p align="center"><sup>🦄 Support <a href="https://github.com/sindresorhus">my open-source work</a> by buying this awesome video course:</sup><br><b><a href="https://learnnode.com/friend/AWESOME">Learn to build apps and APIs with Node.js</a> by Wes Bos</b><br><sub>Try his free <a href="https://javascript30.com/friend/AWESOME">JavaScript 30</a> course for a taste of what to expect & check out his <a href="https://ES6.io/friend/AWESOME">ES6</a>, <a href="https://ReactForBeginners.com/friend/AWESOME">React</a>, <a href="https://SublimeTextBook.com/friend/AWESOME">Sublime</a> courses.</sub></p>
-
----
-
 
 ## Install
 
@@ -98,7 +92,7 @@ Comes bundled with the following **lossless** optimizers:
 
 These are bundled for convenience and most users will not need anything else.
 
-### imagemin([plugins], [options])
+### imagemin(plugins?, options?)
 
 Unsupported files are ignored.
 
@@ -111,7 +105,7 @@ Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemi
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 ##### verbose
 
@@ -124,8 +118,3 @@ Enabling this will log info on every image passed to `gulp-imagemin`:
 gulp-imagemin: ✔ image1.png (already optimized)
 gulp-imagemin: ✔ image2.png (saved 91 B - 0.4%)
 ```
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
