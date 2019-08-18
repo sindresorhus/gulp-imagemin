@@ -71,11 +71,13 @@ module.exports = (plugins, options) => {
 			return;
 		}
 
-		const use = plugins || getDefaultPlugins();
+		const localPlugins = plugins || getDefaultPlugins();
 
 		(async () => {
 			try {
-				const data = await imagemin.buffer(file.contents, {use});
+				const data = await imagemin.buffer(file.contents, {
+					plugins: localPlugins
+				});
 				const originalSize = file.contents.length;
 				const optimizedSize = data.length;
 				const saved = originalSize - optimizedSize;
