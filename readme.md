@@ -126,4 +126,4 @@ Default: `false`
 
 Don't log the number of images that have been minified.
 
-You can also enable this from the command-line with the `--silent` flag.
+You can also enable this from the command-line with the `--silent` flag if the option is not already specified.
