@@ -124,4 +124,6 @@ gulp-imagemin: ✔ image2.png (saved 91 B - 0.4%)
 Type: `boolean`<br>
 Default: `false`
 
-By default, `gulp-imagemin` logs the number of images that have been minified. By enabling the `--silent` option this information won't be logged anymore.
+Don't log the number of images that have been minified.
+
+You can also enable this from the command-line with the `--silent` flag.
