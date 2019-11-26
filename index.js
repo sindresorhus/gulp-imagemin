@@ -119,6 +119,6 @@ module.exports = (plugins, options) => {
 };
 
 module.exports.gifsicle = exposePlugin('gifsicle');
-module.exports.jpegtran = exposePlugin('jpegtran');
+module.exports.mozjpeg = exposePlugin('mozjpeg');
 module.exports.optipng = exposePlugin('optipng');
 module.exports.svgo = exposePlugin('svgo');
