@@ -28,6 +28,18 @@ test('minify images', async t => {
 	t.true(file[0].contents.length < buffer.length);
 });
 
+test('minify JPEG with custom settings', async t => {
+	const mozjpegOptions = {
+		quality: 30,
+		progressive: false,
+		smooth: 45
+	};
+	const {buffer, stream} = await createFixture([gulpImagemin.mozjpeg(mozjpegOptions)], 'fixture.jpg');
+	const file = await getStream.array(stream);
+
+	t.true(file[0].contents.length < buffer.length);
+});
+
 test('use custom plugins', async t => {
 	const {stream} = await createFixture([imageminPngquant()]);
 	const compareStream = (await createFixture()).stream;
