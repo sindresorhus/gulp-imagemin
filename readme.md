@@ -33,7 +33,7 @@ exports.default = () => (
 // …
 .pipe(imagemin([
 	imagemin.gifsicle({interlaced: true}),
-	imagemin.jpegtran({progressive: true}),
+	imagemin.mozjpeg({quality: 75, progressive: true}),
 	imagemin.optipng({optimizationLevel: 5}),
 	imagemin.svgo({
 		plugins: [
@@ -86,7 +86,7 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 Comes bundled with the following **lossless** optimizers:
 
 - [gifsicle](https://github.com/imagemin/imagemin-gifsicle) — *Compress GIF images*
-- [jpegtran](https://github.com/imagemin/imagemin-jpegtran) — *Compress JPEG images*
+- [mozjpeg](https://github.com/imagemin/imagemin-mozjpeg) — *Compress JPEG images*
 - [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
 - [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
 
@@ -99,7 +99,7 @@ Unsupported files are ignored.
 #### plugins
 
 Type: `Array`<br>
-Default: `[imagemin.gifsicle(), imagemin.jpegtran(), imagemin.optipng(), imagemin.svgo()]`
+Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin.svgo()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will overwrite the default plugins. Note that the default plugins comes with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 
