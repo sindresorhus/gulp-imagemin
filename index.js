@@ -13,7 +13,7 @@ const defaultPlugins = ['gifsicle', 'mozjpeg', 'optipng', 'svgo'];
 const loadPlugin = (plugin, ...args) => {
 	try {
 		return require(`imagemin-${plugin}`)(...args);
-	} catch (error) {
+	} catch (_) {
 		log(`${PLUGIN_NAME}: Couldn't load default plugin "${plugin}"`);
 	}
 };
@@ -34,7 +34,7 @@ const getDefaultPlugins = () =>
 module.exports = (plugins, options) => {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
 		options = plugins;
-		plugins = null;
+		plugins = undefined;
 	}
 
 	options = {

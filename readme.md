@@ -4,13 +4,11 @@
 
 *Issues with the output should be reported on the [`imagemin` issue tracker](https://github.com/imagemin/imagemin/issues).*
 
-
 ## Install
 
 ```
 $ npm install --save-dev gulp-imagemin
 ```
-
 
 ## Usage
 
@@ -80,7 +78,6 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 // …
 ```
 
-
 ## API
 
 Comes bundled with the following **lossless** optimizers:
@@ -98,7 +95,7 @@ Unsupported files are ignored.
 
 #### plugins
 
-Type: `Array`<br>
+Type: `Array`\
 Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin.svgo()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will completely overwrite all the default plugins. So, if you want to use custom plugins and you need some of defaults too, then you should pass default plugins as well. Note that the default plugins come with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
@@ -109,7 +106,7 @@ Type: `object`
 
 ##### verbose
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Enabling this will log info on every image passed to `gulp-imagemin`:
@@ -121,7 +118,7 @@ gulp-imagemin: ✔ image2.png (saved 91 B - 0.4%)
 
 ##### silent
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Don't log the number of images that have been minified.
