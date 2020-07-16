@@ -80,12 +80,12 @@ Note that you may come across an older, implicit syntax. In versions < 3, the sa
 
 ## API
 
-Comes bundled with the following **lossless** optimizers:
+Comes bundled with the following optimizers:
 
-- [gifsicle](https://github.com/imagemin/imagemin-gifsicle) — *Compress GIF images*
-- [mozjpeg](https://github.com/imagemin/imagemin-mozjpeg) — *Compress JPEG images*
-- [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images*
-- [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images*
+- [gifsicle](https://github.com/imagemin/imagemin-gifsicle) — *Compress GIF images, lossless*
+- [mozjpeg](https://github.com/imagemin/imagemin-mozjpeg) — *Compress JPEG images, lossy*
+- [optipng](https://github.com/imagemin/imagemin-optipng) — *Compress PNG images, lossless*
+- [svgo](https://github.com/imagemin/imagemin-svgo) — *Compress SVG images, lossless*
 
 These are bundled for convenience and most users will not need anything else.
 
