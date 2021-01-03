@@ -1,4 +1,4 @@
-# gulp-imagemin [![Build Status](https://travis-ci.com/sindresorhus/gulp-imagemin.svg?branch=master)](https://travis-ci.com/sindresorhus/gulp-imagemin) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
+# gulp-imagemin
 
 > Minify PNG, JPEG, GIF and SVG images with [`imagemin`](https://github.com/imagemin/imagemin)
 
