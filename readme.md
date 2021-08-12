@@ -15,10 +15,10 @@ $ npm install --save-dev gulp-imagemin
 ### Basic
 
 ```js
-const gulp = require('gulp');
-const imagemin = require('gulp-imagemin');
+import gulp from 'gulp';
+import imagemin from 'gulp-imagemin';
 
-exports.default = () => (
+export default () => (
 	gulp.src('src/images/*')
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist/images'))
@@ -40,23 +40,6 @@ exports.default = () => (
 		]
 	})
 ]))
-// …
-```
-
-Note that you may come across an older, implicit syntax. In versions < 3, the same was written like this:
-
-```js
-// …
-.pipe(imagemin({
-	interlaced: true,
-	progressive: true,
-	optimizationLevel: 5,
-	svgoPlugins: [
-		{
-			removeViewBox: true
-		}
-	]
-}))
 // …
 ```
 
