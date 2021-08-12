@@ -6,8 +6,8 @@
 
 ## Install
 
-```
-$ npm install --save-dev gulp-imagemin
+```sh
+npm install --save-dev gulp-imagemin
 ```
 
 ## Usage
@@ -28,15 +28,23 @@ export default () => (
 ### Custom plugin options
 
 ```js
+import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
+
 // …
 .pipe(imagemin([
-	imagemin.gifsicle({interlaced: true}),
-	imagemin.mozjpeg({quality: 75, progressive: true}),
-	imagemin.optipng({optimizationLevel: 5}),
-	imagemin.svgo({
+	gifsicle({interlaced: true}),
+	mozjpeg({quality: 75, progressive: true}),
+	optipng({optimizationLevel: 5}),
+	svgo({
 		plugins: [
-			{removeViewBox: true},
-			{cleanupIDs: false}
+			{
+				name: 'removeViewBox',
+				active: true
+			},
+			{
+				name: 'cleanupIDs',
+				active: false
+			}
 		]
 	})
 ]))
@@ -46,12 +54,15 @@ export default () => (
 ### Custom plugin options and custom `gulp-imagemin` options
 
 ```js
+import imagemin, {svgo} from 'gulp-imagemin';
+
 // …
 .pipe(imagemin([
-	imagemin.svgo({
+	svgo({
 		plugins: [
 			{
-				removeViewBox: true
+				name: 'removeViewBox',
+				active: true
 			}
 		]
 	})
@@ -79,7 +90,7 @@ Unsupported files are ignored.
 #### plugins
 
 Type: `Array`\
-Default: `[imagemin.gifsicle(), imagemin.mozjpeg(), imagemin.optipng(), imagemin.svgo()]`
+Default: `[gifsicle(), mozjpeg(), optipng(), svgo()]`
 
 [Plugins](https://www.npmjs.com/browse/keyword/imageminplugin) to use. This will completely overwrite all the default plugins. So, if you want to use custom plugins and you need some of defaults too, then you should pass default plugins as well. Note that the default plugins come with good defaults and should be sufficient in most cases. See the individual plugins for supported options.
 

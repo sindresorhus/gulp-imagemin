@@ -1,30 +1,27 @@
-import {createRequire} from 'node:module';
 import path from 'node:path';
 import process from 'node:process';
-import log from 'fancy-log';
-import PluginError from 'plugin-error';
-import through from 'through2-concurrent';
 import prettyBytes from 'pretty-bytes';
 import chalk from 'chalk';
 import imagemin from 'imagemin';
 import plur from 'plur';
-
-const require = createRequire(import.meta.url);
+import {gulpPlugin} from 'gulp-plugin-extras';
 
 const PLUGIN_NAME = 'gulp-imagemin';
 const defaultPlugins = ['gifsicle', 'mozjpeg', 'optipng', 'svgo'];
 
-const loadPlugin = (plugin, ...args) => {
+const loadPlugin = async (pluginName, ...arguments_) => {
 	try {
-		return require(`imagemin-${plugin}`)(...args);
-	} catch {
-		log(`${PLUGIN_NAME}: Could not load default plugin \`${plugin}\``);
+		const {default: plugin} = await import(`imagemin-${pluginName}`);
+		return plugin(...arguments_);
+	} catch (error) {
+		console.log('er', error);
+		console.log(`${PLUGIN_NAME}: Could not load default plugin \`${pluginName}\``);
 	}
 };
 
-const exposePlugin = plugin => (...args) => loadPlugin(plugin, ...args);
+const exposePlugin = async plugin => (...arguments_) => loadPlugin(plugin, ...arguments_);
 
-const getDefaultPlugins = () => defaultPlugins.flatMap(plugin => loadPlugin(plugin));
+const getDefaultPlugins = async () => Promise.all(defaultPlugins.flatMap(plugin => loadPlugin(plugin)));
 
 export default function gulpImagemin(plugins, options) {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
@@ -45,75 +42,58 @@ export default function gulpImagemin(plugins, options) {
 	let totalSavedBytes = 0;
 	let totalFiles = 0;
 
-	return through.obj({
-		maxConcurrency: 8,
-	}, (file, encoding, callback) => {
-		if (file.isNull()) {
-			callback(null, file);
-			return;
-		}
-
-		if (file.isStream()) {
-			callback(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
-			return;
-		}
-
+	return gulpPlugin('gulp-imagemin', async file => {
 		if (!validExtensions.has(path.extname(file.path).toLowerCase())) {
 			if (options.verbose) {
-				log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
+				console.log(`${PLUGIN_NAME}: Skipping unsupported image ${chalk.blue(file.relative)}`);
 			}
 
-			callback(null, file);
-			return;
+			return file;
 		}
 
-		const localPlugins = plugins || getDefaultPlugins();
-
-		(async () => {
-			try {
-				const data = await imagemin.buffer(file.contents, {
-					plugins: localPlugins,
-				});
-				const originalSize = file.contents.length;
-				const optimizedSize = data.length;
-				const saved = originalSize - optimizedSize;
-				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
-				const savedMessage = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
-				const message = saved > 0 ? savedMessage : 'already optimized';
-
-				if (saved > 0) {
-					totalBytes += originalSize;
-					totalSavedBytes += saved;
-					totalFiles++;
-				}
-
-				if (options.verbose) {
-					log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${message})`));
-				}
-
-				file.contents = data;
-				callback(null, file);
-			} catch (error) {
-				callback(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
-			}
-		})();
-	}, callback => {
-		if (!options.silent) {
-			const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
-			let message = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
-
-			if (totalFiles > 0) {
-				message += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
-			}
-
-			log(`${PLUGIN_NAME}:`, message);
+		if (Array.isArray(plugins)) {
+			plugins = await Promise.all(plugins);
 		}
 
-		callback();
+		const localPlugins = plugins ?? await getDefaultPlugins();
+		const data = await imagemin.buffer(file.contents, {plugins: localPlugins});
+		const originalSize = file.contents.length;
+		const optimizedSize = data.length;
+		const saved = originalSize - optimizedSize;
+		const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
+		const savedMessage = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
+		const message = saved > 0 ? savedMessage : 'already optimized';
+
+		if (saved > 0) {
+			totalBytes += originalSize;
+			totalSavedBytes += saved;
+			totalFiles++;
+		}
+
+		if (options.verbose) {
+			console.log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${message})`));
+		}
+
+		file.contents = data;
+
+		return file;
+	}, {
+		async * onFinish() { // eslint-disable-line require-yield
+			if (!options.silent) {
+				const percent = totalBytes > 0 ? (totalSavedBytes / totalBytes) * 100 : 0;
+				let message = `Minified ${totalFiles} ${plur('image', totalFiles)}`;
+
+				if (totalFiles > 0) {
+					message += chalk.gray(` (saved ${prettyBytes(totalSavedBytes)} - ${percent.toFixed(1).replace(/\.0$/, '')}%)`);
+				}
+
+				console.log(`${PLUGIN_NAME}:`, message);
+			}
+		},
 	});
 }
 
-export const gifsicle = exposePlugin('gifsicle');
-export const mozjpeg = exposePlugin('mozjpeg');
-export const optipng = exposePlugin('optipng');
-export const svgo = exposePlugin('svgo');
+export const gifsicle = await exposePlugin('gifsicle');
+export const mozjpeg = await exposePlugin('mozjpeg');
+export const optipng = await exposePlugin('optipng');
+export const svgo = await exposePlugin('svgo');
