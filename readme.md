@@ -37,8 +37,14 @@ import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 	optipng({optimizationLevel: 5}),
 	svgo({
 		plugins: [
-			{removeViewBox: true},
-			{cleanupIDs: false}
+			{
+				name: 'removeViewBox',
+				active: true
+			},
+			{
+				name: 'cleanupIDs',
+				active: false
+			}
 		]
 	})
 ]))
@@ -55,7 +61,8 @@ import imagemin, {svgo} from 'gulp-imagemin';
 	svgo({
 		plugins: [
 			{
-				removeViewBox: true
+				name: 'removeViewBox',
+				active: true
 			}
 		]
 	})
