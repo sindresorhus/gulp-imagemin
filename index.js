@@ -79,7 +79,7 @@ export default function gulpImagemin(plugins, options) {
 				const saved = originalSize - optimizedSize;
 				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
 				const savedMessage = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
-				const message = saved > 0 ? savedMessage : 'already optimized';
+				const message = saved > 0 ? savedMessage : (options.fallback ? 'fallback to origin image' : 'already optimized');
 
 				if (saved > 0) {
 					totalBytes += originalSize;
@@ -91,7 +91,8 @@ export default function gulpImagemin(plugins, options) {
 					log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${message})`));
 				}
 
-				file.contents = data;
+				
+				file.contents = saved < 0 && options.fallback ? file.contents : data;
 				callback(null, file);
 			} catch (error) {
 				callback(new PluginError(PLUGIN_NAME, error, {fileName: file.path}));
