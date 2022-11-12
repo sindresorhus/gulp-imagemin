@@ -79,7 +79,7 @@ export default function gulpImagemin(plugins, options) {
 				const saved = originalSize - optimizedSize;
 				const percent = originalSize > 0 ? (saved / originalSize) * 100 : 0;
 				const savedMessage = `saved ${prettyBytes(saved)} - ${percent.toFixed(1).replace(/\.0$/, '')}%`;
-				const message = saved > 0 ? savedMessage : (options.fallback ? 'fallback to origin image' : 'already optimized');
+				const message = saved > 0 ? savedMessage : (options.fallback ? 'fallback to original image' : 'already optimized');
 
 				if (saved > 0) {
 					totalBytes += originalSize;
