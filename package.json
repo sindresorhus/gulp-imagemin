@@ -10,8 +10,17 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
-	"type": "module",
-	"exports": "./index.js",
+	"main": "index.mjs",
+	"exports": {
+		".": {
+			"import": {
+				"default": "./index.mjs"
+			},
+			"require": {
+				"default": "./cjs/index.js"
+			}
+		}
+	},
 	"engines": {
 		"node": ">=18"
 	},
@@ -19,7 +28,8 @@
 		"test": "xo && ava"
 	},
 	"files": [
-		"index.js"
+		"index.mjs",
+		"cjs"
 	],
 	"keywords": [
 		"gulpplugin",
@@ -42,10 +52,12 @@
 		"gulp-plugin-extras": "^0.2.2",
 		"imagemin": "^8.0.1",
 		"plur": "^5.1.0",
-		"pretty-bytes": "^6.1.1"
+		"pretty-bytes": "^6.1.1",
+		"signal-exit": "^4.1.0"
 	},
 	"devDependencies": {
 		"ava": "^5.3.1",
+		"common-exports": "^1.2.2",
 		"imagemin-pngquant": "^9.0.2",
 		"vinyl": "^3.0.0",
 		"xo": "^0.56.0"

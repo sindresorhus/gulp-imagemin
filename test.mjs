@@ -1,14 +1,15 @@
-const {readFileSync} = require('node:fs');
-const path = require('node:path');
-const imageminPngquant = require('imagemin-pngquant');
-const Vinyl = require('vinyl');
-const test = require('ava');
-const gulpImagemin = require('./cjs/index.js').default;
-let {mozjpeg, svgo} = require('./cjs/index.js');
+import {promises as fs} from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import imageminPngquant from 'imagemin-pngquant';
+import Vinyl from 'vinyl';
+import test from 'ava';
+import gulpImagemin, {mozjpeg, svgo} from './index.mjs';
 
-const createFixture = (plugins = null, file = 'fixture.png') => {
-	const filePath = path.join(__dirname, file);
-	const buffer = readFileSync(filePath);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const createFixture = async (plugins, file = 'fixture.png') => {
+	const buffer = await fs.readFile(path.join(__dirname, file));
 	const stream = gulpImagemin(plugins);
 
 	stream.end(new Vinyl({
@@ -32,7 +33,6 @@ test('minify JPEG with custom settings', async t => {
 		progressive: false,
 		smooth: 45,
 	};
-	mozjpeg = await mozjpeg;
 	const {buffer, stream} = await createFixture([mozjpeg(mozjpegOptions)], 'fixture.jpg');
 	const file = await stream.toArray();
 
@@ -55,7 +55,6 @@ test('use custom svgo settings', async t => {
 			pretty: true,
 		},
 	};
-	svgo = await svgo;
 	const {stream} = await createFixture([svgo(svgoOptions)], 'fixture-svg-logo.svg');
 	const {stream: compareStream} = await createFixture(null, 'fixture-svg-logo.svg');
 	const file = await stream.toArray();
