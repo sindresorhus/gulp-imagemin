@@ -75,5 +75,13 @@
 		"gulp": {
 			"optional": true
 		}
+	},
+	"xo": {
+		"ignores": [
+			"cjs"
+		],
+		"rules": {
+			"unicorn/prefer-module": 1
+		}
 	}
 }
