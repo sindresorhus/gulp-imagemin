@@ -23,6 +23,8 @@ const exposePlugin = async plugin => (...arguments_) => loadPlugin(plugin, ...ar
 
 const getDefaultPlugins = async () => Promise.all(defaultPlugins.flatMap(plugin => loadPlugin(plugin)));
 
+const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg']);
+
 export default function gulpImagemin(plugins, options) {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
 		options = plugins;
@@ -35,8 +37,6 @@ export default function gulpImagemin(plugins, options) {
 		verbose: process.argv.includes('--verbose'),
 		...options,
 	};
-
-	const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg']);
 
 	let totalBytes = 0;
 	let totalSavedBytes = 0;
@@ -74,7 +74,7 @@ export default function gulpImagemin(plugins, options) {
 			console.log(`${PLUGIN_NAME}:`, chalk.green('✔ ') + file.relative + chalk.gray(` (${message})`));
 		}
 
-		file.contents = data;
+		file.contents = Buffer.from(data);
 
 		return file;
 	}, {
