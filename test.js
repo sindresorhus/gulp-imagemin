@@ -2,6 +2,7 @@ import {promises as fs} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import imageminPngquant from 'imagemin-pngquant';
+import imageminWebp from 'imagemin-webp';
 import Vinyl from 'vinyl';
 import test from 'ava';
 import gulpImagemin, {mozjpeg, svgo} from './index.js';
@@ -42,6 +43,15 @@ test('minify JPEG with custom settings', async t => {
 test('use custom plugins', async t => {
 	const {stream} = await createFixture([imageminPngquant()]);
 	const {stream: compareStream} = await createFixture();
+	const file = await stream.toArray();
+	const compareFile = await compareStream.toArray();
+
+	t.true(file[0].contents.length < compareFile[0].contents.length);
+});
+
+test('use webp plugin', async t => {
+	const {stream} = await createFixture([imageminWebp()], 'fixture.webp');
+	const {stream: compareStream} = await createFixture(null, 'fixture.webp');
 	const file = await stream.toArray();
 	const compareFile = await compareStream.toArray();
 

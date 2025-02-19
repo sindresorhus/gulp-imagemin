@@ -23,7 +23,7 @@ const exposePlugin = async plugin => (...arguments_) => loadPlugin(plugin, ...ar
 
 const getDefaultPlugins = async () => Promise.all(defaultPlugins.flatMap(plugin => loadPlugin(plugin)));
 
-const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg']);
+const validExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp']);
 
 export default function gulpImagemin(plugins, options) {
 	if (typeof plugins === 'object' && !Array.isArray(plugins)) {
