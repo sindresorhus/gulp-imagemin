@@ -48,6 +48,7 @@
 	"devDependencies": {
 		"ava": "^6.1.2",
 		"imagemin-pngquant": "^9.0.2",
+		"imagemin-webp": "^8.0.0",
 		"vinyl": "^3.0.0",
 		"xo": "^0.58.0"
 	},
