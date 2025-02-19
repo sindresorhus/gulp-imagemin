@@ -7,7 +7,7 @@ import plur from 'plur';
 import {gulpPlugin} from 'gulp-plugin-extras';
 
 const PLUGIN_NAME = 'gulp-imagemin';
-const defaultPlugins = ['gifsicle', 'mozjpeg', 'optipng', 'svgo'];
+const defaultPlugins = ['gifsicle', 'mozjpeg', 'optipng', 'svgo', 'webp'];
 
 const loadPlugin = async (pluginName, ...arguments_) => {
 	try {
@@ -97,3 +97,4 @@ export const gifsicle = await exposePlugin('gifsicle');
 export const mozjpeg = await exposePlugin('mozjpeg');
 export const optipng = await exposePlugin('optipng');
 export const svgo = await exposePlugin('svgo');
+export const webp = await exposePlugin('webp');
